@@ -1,0 +1,25 @@
+{
+  "name": "battle-ship-tested-code",
+  "version": "1.0.0",
+  "description": "",
+  "main": "applogic.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tap"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmocal/battle-ship-tested-code.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmocal/battle-ship-tested-code/issues"
+  },
+  "homepage": "https://github.com/pmocal/battle-ship-tested-code#readme",
+  "devDependencies": {
+    "tap": "^14.6.1"
+  }
+}

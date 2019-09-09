@@ -38,3 +38,8 @@ const Gambeboard = function(dimensions) {
 
 	//board can report if all ships sunk
 }
+
+module.exports = {
+	Ship,
+	Gameboard
+}
