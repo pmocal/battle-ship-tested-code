@@ -1,9 +1,10 @@
-const Ship = function(length) {
+const Ship = (length) => {
 	//length, where theyve been hit, whether its sunk
 	var positions = new Array(length);
 	const hit = function(number){
 		//marks the ship as hit at that index
 		positions[number] = 'X';
+		return positions;
 	}
 	const isSunk = function() {
 		//all positions hit
@@ -17,9 +18,10 @@ const Ship = function(length) {
 			return true;
 		}
 	}
+	return { hit, isSunk }
 }
 
-const Gambeboard = function(dimensions) {
+const Gameboard = function(dimensions) {
 	var rows = new Array(dimensions[1]);
 	for (let row in rows) {
 		row = new Array(dimensions[2]);

@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "applogic.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "tap"
   },
