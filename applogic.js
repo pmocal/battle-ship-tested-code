@@ -9,14 +9,12 @@ const Ship = (length) => {
 	const isSunk = function() {
 		//all positions hit
 		var flag = true;
-		for (let position in positions) {
-			if (position != 'X') {
+		for (let index in positions) {
+			if (positions[index] !== 'X') {
 				flag = false;
 			}
 		}
-		if (flag) {
-			return true;
-		}
+		return flag;
 	}
 	return { hit, isSunk }
 }
