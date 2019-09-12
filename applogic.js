@@ -33,6 +33,7 @@ const Gameboard = function(ship, dimensions) {
 		return ((x < dimensions[0]) && (y + length < dimensions[1]))
 	}
 	const placeShip = function(ship, x, y) {
+		console.log("inside placeShip");
 		//helper for receiveAttack
 		//place ship at coord
 		if (shipFits(ship.positions.length, x, y)) {
@@ -50,7 +51,9 @@ const Gameboard = function(ship, dimensions) {
 		//displayed on board
 		//board can report if all ships sunk
 		if (rows[x][y] == null) {
-			//record miss
+			return [x, y];
+		} else {
+			return rows[x][y];
 		}
 	}
 
