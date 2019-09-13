@@ -45,20 +45,25 @@ const Gameboard = function(ship, dimensions) {
 	}
 	placeShip(ship, 0, 0);
 
+	const displayMissedAttack = function(coordinates) {
+		//do something
+		//helper for receiveAttack
+	}
 	const receiveAttack = function(x, y) {
 		//either hit ship or record coordinates of the miss
 		//missed attacks tracked so later they can be
 		//displayed on board
 		//board can report if all ships sunk
 		if (rows[x][y] == null) {
+			displayMissedAttack([x,y]);
 			return [x, y];
 		} else if (rows[x][y].length == 2) {
 			//coordinates of ship object contained
 			shipX = rows[x][y][0];
 			shipY = rows[x][y][1];
-			return rows[shipX][shipY];
+			return rows[shipX][shipY].hit(y-shipY);
 		} else {
-			return rows[x][y];
+			return rows[x][y].hit(0);
 		}
 	}
 

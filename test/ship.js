@@ -9,8 +9,8 @@ t.test("hit method", t => {
 });
 
 t.test("hit method multiple times", t => {
-	t.same(testShip.hit(4).positions, [,,,,'X']);
-	t.same(testShip.hit(0).positions, ['X',,,,'X']);
+	t.same(testShip.hit(4).positions, [null,null,null,null,'X']);
+	t.same(testShip.hit(0).positions, ['X',null,null,null,'X']);
 	t.end();
 });
 

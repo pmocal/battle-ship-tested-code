@@ -9,23 +9,20 @@ t.test("receiveAttack method with a missed shot", t => {
 	t.end();
 });
 
-t.test("receiveAttack method which sends hit() function to ship", t => {
-	t.same(testBoard.receiveAttack(0, 0), testShip.hit(0));
+t.test("receiveAttack method which sends hit(i) function to ship", t => {
+	t.same(testBoard.receiveAttack(0, 0).positions, ['X',null,null,null,null]);
 	t.end();
 });
 
-t.test("receiveAttack method which also sends hit() function to ship", t => {
-	t.same(testBoard.receiveAttack(0, 1), testShip.hit(1));
+t.test("receiveAttack method sends a second hit(i) function to ship", t => {
+	t.same(testBoard.receiveAttack(0, 1).positions, ['X','X',null,null,null]);
 	t.end();
 });
 
-t.test("receiveAttack method which sinks final ship", t => {
+t.test("after a final hit, ship's isSunk() evaluates to true", t => {
 	t.equals(testShip.isSunk(), false);
-	var ship;
-	for (let i = 2; i < shipLength; i++) {
-		ship = testBoard.receiveAttack(0, i);
-	}
-	console.log(ship);
-	t.same(ship.isSunk(), true);
+	testBoard.receiveAttack(0, 2);
+	testBoard.receiveAttack(0, 3);
+	t.same(testBoard.receiveAttack(0, 4).isSunk(), true);
 	t.end();
 });
