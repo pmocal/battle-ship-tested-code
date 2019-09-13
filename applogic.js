@@ -5,7 +5,7 @@ const Ship = (length) => {
 	const hit = function(number){
 		//marks the ship as hit at that index
 		positions[number] = 'X';
-		return positions;
+		return this;
 	}
 	
 	const isSunk = function() {
@@ -30,15 +30,15 @@ const Gameboard = function(ship, dimensions) {
 	}
 	const shipFits = function(length, x, y) {
 		//helper for placeShip
+		console.log(length, x, y, dimensions[0], dimensions[1]);
 		return ((x < dimensions[0]) && (y + length < dimensions[1]))
 	}
 	const placeShip = function(ship, x, y) {
-		console.log("inside placeShip");
 		//helper for receiveAttack
 		//place ship at coord
 		if (shipFits(ship.positions.length, x, y)) {
 			rows[x][y] = ship;
-			for (i = 1; i < length; i++) {
+			for (i = 1; i < ship.positions.length; i++) {
 				rows[x][y+i] = [x, y];
 			}
 		}
@@ -52,6 +52,11 @@ const Gameboard = function(ship, dimensions) {
 		//board can report if all ships sunk
 		if (rows[x][y] == null) {
 			return [x, y];
+		} else if (rows[x][y].length == 2) {
+			//coordinates of ship object contained
+			shipX = rows[x][y][0];
+			shipY = rows[x][y][1];
+			return rows[shipX][shipY];
 		} else {
 			return rows[x][y];
 		}

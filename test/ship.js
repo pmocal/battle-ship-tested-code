@@ -4,17 +4,22 @@ var shipLength = 5;
 var testShip = battleshiptestedcode['Ship'](shipLength);
 
 t.test("hit method", t => {
-	t.same(testShip.hit(4), [,,,,'X']);
+	t.same(testShip.hit(4).positions, [,,,,'X']);
 	t.end();
 });
 
 t.test("hit method multiple times", t => {
-	t.same(testShip.hit(4), [,,,,'X']);
-	t.same(testShip.hit(0), ['X',,,,'X']);
+	t.same(testShip.hit(4).positions, [,,,,'X']);
+	t.same(testShip.hit(0).positions, ['X',,,,'X']);
 	t.end();
 });
 
-t.test("isSunk method", t => {
+t.test("isSunk method false", t => {
+	t.same(testShip.isSunk(), false);
+	t.end();
+});
+
+t.test("isSunk method true", t => {
 	for (let i = 0; i < shipLength; i++) {
 		testShip.hit(i);
 	}
