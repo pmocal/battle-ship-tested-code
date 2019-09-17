@@ -79,10 +79,20 @@ const Player = function(Gameboard) {
 		var x = Math.floor(Math.random() * otherPlayer.Gameboard.rows.length);
 		var result = otherPlayer.Gameboard.receiveAttack(x,
 			Math.floor(Math.random() * otherPlayer.Gameboard.rows[x].length));
-		console.log(result);
 		return result;
 	}
 	return { Gameboard, userAttack, computerAttack }
+}
+
+function main() {
+	var shipLength = 5;
+	var ship1 = Ship(shipLength);
+	var ship2 = Ship(shipLength);
+	var board1 = Gameboard(ship1, [10, 10]);
+	var board2 = Gameboard(ship2, [10, 10]);
+	var player1 = Player(board1);
+	var player2 = Player(board2);
+	
 }
 
 module.exports = {

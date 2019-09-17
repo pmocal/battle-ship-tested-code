@@ -8,8 +8,6 @@ var computerPlayer = battleshiptestedcode['Player'](testBoard);
 
 t.test("computer attacks", t => {
 	var computerAttackResult = computerPlayer.computerAttack(humanPlayer);
-	// t.same(computerAttackResult.length, 2);
-	// t.same((computerAttackResult[0] < 10) && (computerAttackResult[1] < 10), true);
 	t.notSame(computerAttackResult, null)
 	t.end();
 });
