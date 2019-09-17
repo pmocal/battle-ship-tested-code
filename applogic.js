@@ -30,7 +30,6 @@ const Gameboard = function(ship, dimensions) {
 	}
 	const shipFits = function(length, x, y) {
 		//helper for placeShip
-		console.log(length, x, y, dimensions[0], dimensions[1]);
 		return ((x < dimensions[0]) && (y + length < dimensions[1]))
 	}
 	const placeShip = function(ship, x, y) {
@@ -67,10 +66,27 @@ const Gameboard = function(ship, dimensions) {
 		}
 	}
 
-	return { receiveAttack }
+	return { rows, receiveAttack }
+}
+
+const Player = function(Gameboard) {
+	const userAttack = function(otherPlayer, x, y) {
+		//take user input to attack otherPlayer.Gameboard
+		return otherPlayer.Gameboard.receiveAttack(x, y)
+	}
+	const computerAttack = function(otherPlayer) {
+		//randomly attack otherPlayer.Gameboard
+		var x = Math.floor(Math.random() * otherPlayer.Gameboard.rows.length);
+		var result = otherPlayer.Gameboard.receiveAttack(x,
+			Math.floor(Math.random() * otherPlayer.Gameboard.rows[x].length));
+		console.log(result);
+		return result;
+	}
+	return { Gameboard, userAttack, computerAttack }
 }
 
 module.exports = {
 	Ship,
-	Gameboard
+	Gameboard,
+	Player
 }
