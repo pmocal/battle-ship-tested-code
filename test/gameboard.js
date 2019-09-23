@@ -2,7 +2,7 @@ const t = require('tap');
 const battleshiptestedcode = require('../applogic.js');
 var shipLength = 5;
 var testShip = battleshiptestedcode['Ship'](shipLength);
-var testBoard = battleshiptestedcode['Gameboard'](testShip, [10, 10]);
+var testBoard = battleshiptestedcode['Gameboard']([testShip], [10, 10]);
 
 t.test("receiveAttack method with a missed shot", t => {
 	t.same(testBoard.receiveAttack(0, 5), [0, 5]);

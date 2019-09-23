@@ -4,7 +4,8 @@
   "description": "",
   "main": "applogic.js",
   "scripts": {
-    "test": "tap --comments"
+    "test": "tap --comments",
+    "build": "webpack --config prod.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/pmocal/battle-ship-tested-code#readme",
   "devDependencies": {
-    "tap": "^14.6.1"
+    "tap": "^14.6.1",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
   }
 }

@@ -22,7 +22,7 @@ const Ship = (length) => {
 	return { positions, hit, isSunk }
 }
 
-const Gameboard = function(ship, dimensions) {
+const Gameboard = function(ships, dimensions) {
 	// board 2d array
 	var rows = new Array(dimensions[0]).fill(null);
 	for (let index in rows) {
@@ -30,19 +30,28 @@ const Gameboard = function(ship, dimensions) {
 	}
 	const shipFits = function(length, x, y) {
 		//helper for placeShip
+		console.log(x, y);
+		console.log(dimensions[0], dimensions[1]);
+		console.log(length);
 		return ((x < dimensions[0]) && (y + length < dimensions[1]))
 	}
 	const placeShip = function(ship, x, y) {
 		//helper for receiveAttack
 		//place ship at coord
+		x = parseInt(x);
+		y = parseInt(y);
 		if (shipFits(ship.positions.length, x, y)) {
+			console.log(x, y);
 			rows[x][y] = ship;
 			for (i = 1; i < ship.positions.length; i++) {
 				rows[x][y+i] = [x, y];
 			}
 		}
 	}
-	placeShip(ship, 0, 0);
+	for (index in ships) {
+		console.log(index);
+		placeShip(ships[index], index, index);
+	}
 
 	const displayMissedAttack = function(coordinates) {
 		//do something
@@ -66,7 +75,37 @@ const Gameboard = function(ship, dimensions) {
 		}
 	}
 
-	return { rows, receiveAttack }
+	const shipsAllSunk = function() {
+		for (index in ships) {
+			if (ships[index].isSunk() == false){
+				return false;
+			};
+		}
+		return true;
+	}
+
+	const renderBoard = function(boardId) {
+		var board = document.getElementById(boardId);
+		var elem;
+		for (index in rows) {
+			for (index2 in rows[index]) {
+				elem = document.createElement("div");
+				elem.className = "grid-item";
+				elem.addEventListener("click", function() {
+					elem.innerHTML = "X";
+				});
+				if (rows[index][index2] != null) {
+					elem.innerHTML = index.toString() + index2.toString();
+				}
+				else {
+					elem.innerHTML = '_';
+				}
+				board.appendChild(elem);
+			}
+		}
+	}
+
+	return { rows, receiveAttack, shipsAllSunk, renderBoard }
 }
 
 const Player = function(Gameboard) {
@@ -86,14 +125,31 @@ const Player = function(Gameboard) {
 
 function main() {
 	var shipLength = 5;
-	var ship1 = Ship(shipLength);
-	var ship2 = Ship(shipLength);
-	var board1 = Gameboard(ship1, [10, 10]);
-	var board2 = Gameboard(ship2, [10, 10]);
+	player1ships = [];
+	player2ships = [];
+	for (i = 0; i < 3; i++) {
+		player1ships.push(Ship(shipLength));
+		player2ships.push(Ship(shipLength));
+	}
+	var board1 = Gameboard(player1ships, [10, 10]);
+	var board2 = Gameboard(player2ships, [10, 10]);
 	var player1 = Player(board1);
 	var player2 = Player(board2);
-	
+
+	var flag = player1.Gameboard.shipsAllSunk();
+	while (flag == false) {
+		player1.Gameboard.renderBoard("board1");
+		player2.Gameboard.renderBoard("board2");
+		flag = true;
+	}
+
+	// while gameIsNotDone
+		// wait for player click
+		// render move 
+		// switch players
 }
+
+main();
 
 module.exports = {
 	Ship,
