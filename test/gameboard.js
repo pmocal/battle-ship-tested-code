@@ -50,7 +50,7 @@ t.test("shipsAllSunk() evaluates to false", t => {
 	t.end();
 });
 
-t.test("renderBoard(boardId) adds ", t => {
-	var [ testBoard, testShip, shipLength ] = setup();
-	t.end();
-});
+// t.test("renderBoard(boardId) adds ", t => {
+// 	var [ testBoard, testShip, shipLength ] = setup();
+// 	t.end();
+// });

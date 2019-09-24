@@ -6,7 +6,7 @@
 <script>
 
 	const battleshipcode = require('./applogic.js');
-	const gameDOM = require('../src')
+	const gameDOM = require('./gameDOM.js');
 
 	export default {
 		name: 'app',
