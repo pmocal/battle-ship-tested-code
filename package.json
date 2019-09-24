@@ -25,11 +25,18 @@
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-eslint": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "babel-eslint": "^10.0.1",
+    "browser-env": "^3.2.6",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10",
-    "tap": "^14.6.1"
+    "require-extension-hooks": "^0.3.3",
+    "require-extension-hooks-babel": "^1.0.0",
+    "require-extension-hooks-vue": "^3.0.0",
+    "tap": "^14.6.1",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.11.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,
@@ -41,7 +48,10 @@
       "eslint:recommended"
     ],
     "rules": {
-      "no-mixed-spaces-and-tabs": [2, "smart-tabs"]
+      "no-mixed-spaces-and-tabs": [
+        2,
+        "smart-tabs"
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"
