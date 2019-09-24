@@ -1,5 +1,5 @@
 const t = require('tap');
-const battleshiptestedcode = require('../applogic.js');
+const battleshiptestedcode = require('../src/applogic.js');
 var shipLength = 5;
 var testShip = battleshiptestedcode['Ship'](shipLength);
 
