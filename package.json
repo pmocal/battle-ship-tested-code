@@ -6,7 +6,8 @@
     "test": "tap --comments",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "unit": "tape -r ./test/setup.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,7 @@
   },
   "homepage": "https://github.com/pmocal/battle-ship-tested-code#readme",
   "dependencies": {
-    "core-js": "^2.6.5",
+    "core-js": "^2.6.9",
     "vue": "^2.6.10"
   },
   "devDependencies": {
@@ -36,7 +37,8 @@
     "tap": "^14.6.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.11.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue-test-utils": "^1.0.0-beta.11"
   },
   "eslintConfig": {
     "root": true,
