@@ -1,7 +1,7 @@
 <template>
 	<div id="game">
-		<battleship-game-player name="P1"></battleship-game-player>
-		<battleship-game-player name="P2"></battleship-game-player>
+		<BattleshipGamePlayer name="P1"/>
+		<BattleshipGamePlayer name="P2"/>
 	</div>
 </template>
 

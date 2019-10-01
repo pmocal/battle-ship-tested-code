@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<p>{{ name }}</p>
-		<battleship-game-player-board :ship-length="shipLength" :ship-locations="shipLocations" :dimensions="dimensions"></battleship-game-player-board>
+		<BattleshipGamePlayerBoard
+			:ship-length="shipLength"
+			:ship-locations="shipLocations"
+			:dimensions="dimensions"
+		/>
 	</div>
 </template>
 
@@ -21,17 +25,6 @@
 			}
 		},
 		methods: {
-			userAttack() {
-				//take user input to attack otherPlayer.Gameboard
-				return otherPlayer.Gameboard.receiveAttack(x, y)
-			},
-			computerAttack() {
-				//randomly attack otherPlayer.Gameboard
-				var x = Math.floor(Math.random() * otherPlayer.Gameboard.rows.length);
-				var result = otherPlayer.Gameboard.receiveAttack(x,
-					Math.floor(Math.random() * otherPlayer.Gameboard.rows[x].length));
-				return result;
-			}
 		},
 		components: {
 			BattleshipGamePlayerBoard
