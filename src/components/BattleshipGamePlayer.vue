@@ -13,7 +13,7 @@
 	import BattleshipGamePlayerBoard from './BattleshipGamePlayerBoard.vue'
 
 	export default {
-		name: 'Player',
+		name: 'BattleshipGamePlayer',
 		props: {
 			'name': String
 		},
@@ -23,8 +23,6 @@
 				shipLocations: [[0,0], [1,1], [2,2]],
 				dimensions: [10, 10]
 			}
-		},
-		methods: {
 		},
 		components: {
 			BattleshipGamePlayerBoard

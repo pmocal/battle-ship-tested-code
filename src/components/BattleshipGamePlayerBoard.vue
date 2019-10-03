@@ -1,8 +1,16 @@
 <template>
 	<div class="grid-container">
-		<div v-for="row in rows" v-bind:key="row.uuid">
-			<div v-for="item in row" v-bind:key="item.uuid">
-				<div onclick="placeShip(this.row, this.item)"> {{ item }} </div>
+		<div
+			v-for="row in rows"
+			v-bind:key="row.uuid"
+		>
+			<div
+				v-for="item in row"
+				v-bind:key="item.uuid"
+			>
+				
+				{{ item }}
+				
 			</div>
 		</div>
 	</div>
@@ -10,6 +18,7 @@
 
 <script>
 	export default {
+
 		name: 'BattleshipGamePlayerBoard',
 		props: {
 			'shipLength': Number,
@@ -18,31 +27,57 @@
 		},
 		data() {
 			return {
-				rows: null
+				rows: [],
+				ships: []
 			}
 		},
 		created() {
-			this.rows = new Array(this.dimensions[0]).fill('_');
-			for (let index in this.rows) {
-				this.rows[index] = new Array(this.dimensions[1]).fill('_');
+			this.rows = new Array(this.dimensions[0]).fill('O');
+			for (let i = 0; i < this.rows.length; i++) {
+				this.$set(this.rows, i, new Array(this.dimensions[1]).fill('O'));
 			}
-			// for (let index in ships) {
-			// 	placeShip(ships[index], index, index);
-			// }
+			for (let i = 0; i < this.shipLocations.length; i++) {
+				let ship = this.placeShip(this.shipLocations[i]);
+				if (ship != null) {
+					this.ships.push(ship);
+				}
+			}
 		},
 		methods: {
-			placeShip(x, y) {
+
+			placeShip([x, y]) {
 				//helper for receiveAttack
 				//place ship at coord
 				x = parseInt(x);
 				y = parseInt(y);
 
-				if (shipFits(this.shipLength, x, y)) {
-					this.rows[x][y] = "O";
-					for (let i = 1; i < this.shipLength; i++) {
-						this.rows[x][y+i] = [x, y];
-					}
+				const shipFactory = (number) => {
+					var positions = new Array(this.shipLength).fill('o');
+					const toString = () => {
+						return number.toString()
+					};
+				  	const hitShip = (i) => {
+				  		positions[i] = 'x';
+				  	}
+					const isSunk = () => {
+				  	for (let i = 0; i < positions.length; i++) {
+				  		if (positions[i] === 'o') {
+				  			return false;
+				  		}
+				  		return true;
+				  	}
+				  }
+
+				  return { toString, hitShip, isSunk };
+				};
+
+				//shipFits is not really necessary right now since I am placing them; might come handy later though
+				var newShip = shipFactory(this.ships.length);
+				this.rows[x].splice(y, 1, newShip.toString()); //the length is the highest index + 1, the index we want since we are adding this ship
+				for (let i = 1; i < this.shipLength; i++) {
+					this.rows[x].splice(y+i, 1, [x, y]);
 				}
+				return newShip;
 			},
 			receiveAttack(x, y) {
 				//either hit ship or record coordinates of the miss
@@ -62,8 +97,8 @@
 				}
 			},
 			shipsAllSunk(ships) {
-				for (let index in ships) {
-					if (ships[index].isSunk() == false){
+				for (let i = 0; i < ships.length; i++) {
+					if (ships[i].isSunk() == false){
 						return false;
 					}
 				}
@@ -81,10 +116,14 @@
 	.grid-container {
 		display: grid;
 		grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
-		grid-gap: 1% 1%;
-		padding: 1%;
 		background-color: teal;
 		border-style: solid;
 		border-color: orange;
+	}
+	.grid-container div div{
+		text-align: center;
+		border-top: solid;
+		border-right: solid;
+		border-color: silver;
 	}
 </style>
