@@ -31,11 +31,7 @@
 </script>
 
 <style>
-	div {
-	}
-
 	div p {
 		color: white;
 	}
-
 </style>

@@ -7,10 +7,9 @@
 			<div
 				v-for="item in row"
 				v-bind:key="item.uuid"
-			>
-				
+				v-bind:class="squareColor(item)"
+			>		
 				{{ item }}
-				
 			</div>
 		</div>
 	</div>
@@ -44,7 +43,14 @@
 			}
 		},
 		methods: {
-
+			squareColor(item) {
+				if (item != "O") {
+					if (item === "X") {
+						return "missedAttack";
+					}
+					return "ship";
+				}
+			},
 			placeShip([x, y]) {
 				//helper for receiveAttack
 				//place ship at coord
@@ -56,19 +62,18 @@
 					const toString = () => {
 						return number.toString()
 					};
-				  	const hitShip = (i) => {
-				  		positions[i] = 'x';
-				  	}
+					const hitShip = (i) => {
+						positions[i] = 'x';
+					}
 					const isSunk = () => {
-				  	for (let i = 0; i < positions.length; i++) {
-				  		if (positions[i] === 'o') {
-				  			return false;
-				  		}
-				  		return true;
-				  	}
-				  }
-
-				  return { toString, hitShip, isSunk };
+						for (let i = 0; i < positions.length; i++) {
+							if (positions[i] === 'o') {
+								return false;
+							}
+							return true;
+						}
+					}
+					return { toString, hitShip, isSunk };
 				};
 
 				//shipFits is not really necessary right now since I am placing them; might come handy later though
@@ -125,5 +130,11 @@
 		border-top: solid;
 		border-right: solid;
 		border-color: silver;
+	}
+	.ship {
+		background-color: green;
+	}
+	.missedAttack {
+		background-color: red;
 	}
 </style>
