@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="grid-container"
-		v-bind:class="boardClass"
+		v-bind:class="boardClassifier"
 	>
 		<div
 			v-for="row in rows"
@@ -29,8 +29,9 @@
 			'ships': Array
 		},
 		computed: {
-			boardClass() {
+			boardClassifier() {
 				if (this.playerName === "Computer") {
+
 					return "hidden";
 				}
 				return "";
