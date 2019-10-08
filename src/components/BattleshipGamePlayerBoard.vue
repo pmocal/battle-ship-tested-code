@@ -1,13 +1,17 @@
 <template>
-	<div class="grid-container">
+	<div
+		class="grid-container"
+		v-bind:class="boardClass"
+	>
 		<div
 			v-for="row in rows"
 			v-bind:key="row.uuid"
 		>
 			<div
+				id="slot"
 				v-for="item in row"
 				v-bind:key="item.uuid"
-				v-bind:class="squareColor(item)"
+				v-bind:class="squareClass(item)"
 			>		
 				{{ item }}
 			</div>
@@ -22,7 +26,15 @@
 		props: {
 			'shipLength': Number,
 			'shipLocations': Array,
-			'dimensions': Array
+			'dimensions': Array,
+			'name': String
+		},
+		computed: {
+			boardClass() {
+				if (this.name === "Computer") {
+					return "hidden";
+				}
+			}
 		},
 		data() {
 			return {
@@ -43,14 +55,6 @@
 			}
 		},
 		methods: {
-			squareColor(item) {
-				if (item != "O") {
-					if (item === "X") {
-						return "missedAttack";
-					}
-					return "ship";
-				}
-			},
 			placeShip([x, y]) {
 				//helper for receiveAttack
 				//place ship at coord
@@ -108,13 +112,20 @@
 					}
 				}
 				return true;
-			}
+			},
+			squareClass(item) {
+				if (item != "O") {
+					if (item === "X") {
+						return "missedAttack";
+					}
+					return "ship";
+				}
+			},
 		}
 	}
-
-	function shipFits(x, y) {
-		return ((x < this.dimensions[0]) && (y + this.shipLength < this.dimensions[1]));
-	}
+	// function shipFits(x, y) {
+	// 	return ((x < this.dimensions[0]) && (y + this.shipLength < this.dimensions[1]));
+	// }
 </script>
 
 <style scoped>
@@ -130,6 +141,9 @@
 		border-top: solid;
 		border-right: solid;
 		border-color: silver;
+	}
+	.hidden div #slot{
+		background-color: black;
 	}
 	.ship {
 		background-color: green;

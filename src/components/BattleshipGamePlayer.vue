@@ -5,6 +5,7 @@
 			:ship-length="shipLength"
 			:ship-locations="shipLocations"
 			:dimensions="dimensions"
+			:name="name"
 		/>
 	</div>
 </template>
@@ -21,7 +22,8 @@
 			return {
 				shipLength: 5,
 				shipLocations: [[0,0], [1,1], [2,2]],
-				dimensions: [10, 10]
+				dimensions: [10, 10],
+				name: this.name
 			}
 		},
 		components: {
@@ -32,6 +34,6 @@
 
 <style>
 	div p {
-		color: white;
+		color: ruby;
 	}
 </style>

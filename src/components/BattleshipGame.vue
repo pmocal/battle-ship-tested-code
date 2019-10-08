@@ -1,7 +1,7 @@
 <template>
 	<div id="game">
-		<BattleshipGamePlayer name="P1"/>
-		<BattleshipGamePlayer name="P2"/>
+		<BattleshipGamePlayer name="Human"/>
+		<BattleshipGamePlayer name="Computer"/>
 	</div>
 </template>
 
@@ -18,6 +18,6 @@
 
 <style scoped>
 	#game {
-		background-color: black;
+		background-color: lightgrey;
 	}
 </style>
