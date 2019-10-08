@@ -2,10 +2,9 @@
 	<div>
 		<p>{{ name }}</p>
 		<BattleshipGamePlayerBoard
-			:ship-length="shipLength"
-			:ship-locations="shipLocations"
+			:ships="ships"
 			:dimensions="dimensions"
-			:name="name"
+			:player-name="playerName"
 		/>
 	</div>
 </template>
@@ -18,12 +17,38 @@
 		props: {
 			'name': String
 		},
+		created() {
+			this.initializeShips();
+		},
 		data() {
 			return {
-				shipLength: 5,
-				shipLocations: [[0,0], [1,1], [2,2]],
 				dimensions: [10, 10],
-				name: this.name
+				playerName: this.name,
+				ships: []
+			}
+		},
+		methods: {
+			initializeShips() {
+				const shipFactory = (length, location) => {
+					var hitsRemaining = length;
+					function hit() {
+						hitsRemaining -= 1;
+					}
+					function getHitsRemaining() {
+						return hitsRemaining;
+					}
+					function getLength() {
+						return length;
+					}
+					function getLocation() {
+						return location;
+					}
+					return { getLength, getLocation, getHitsRemaining, hit };
+				};
+				var shipLengths = [1, 4, 5, 2];
+				for (let index = 0; index < 4; index++) {
+					this.ships.push(shipFactory(shipLengths[index], [index, index]));
+				}
 			}
 		},
 		components: {
@@ -34,6 +59,7 @@
 
 <style>
 	div p {
-		color: ruby;
+		color: black;
+		padding: 1%;
 	}
 </style>

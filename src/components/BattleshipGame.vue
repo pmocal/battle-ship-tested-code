@@ -18,6 +18,6 @@
 
 <style scoped>
 	#game {
-		background-color: lightgrey;
+		background-color: orange;
 	}
 </style>

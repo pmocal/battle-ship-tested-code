@@ -24,22 +24,21 @@
 
 		name: 'BattleshipGamePlayerBoard',
 		props: {
-			'shipLength': Number,
-			'shipLocations': Array,
 			'dimensions': Array,
-			'name': String
+			'playerName': String,
+			'ships': Array
 		},
 		computed: {
 			boardClass() {
-				if (this.name === "Computer") {
+				if (this.playerName === "Computer") {
 					return "hidden";
 				}
+				return "";
 			}
 		},
 		data() {
 			return {
-				rows: [],
-				ships: []
+				rows: []
 			}
 		},
 		created() {
@@ -47,46 +46,17 @@
 			for (let i = 0; i < this.rows.length; i++) {
 				this.$set(this.rows, i, new Array(this.dimensions[1]).fill('O'));
 			}
-			for (let i = 0; i < this.shipLocations.length; i++) {
-				let ship = this.placeShip(this.shipLocations[i]);
-				if (ship != null) {
-					this.ships.push(ship);
-				}
-			}
+			this.placeShips();
 		},
 		methods: {
-			placeShip([x, y]) {
-				//helper for receiveAttack
-				//place ship at coord
-				x = parseInt(x);
-				y = parseInt(y);
-
-				const shipFactory = (number) => {
-					var positions = new Array(this.shipLength).fill('o');
-					const toString = () => {
-						return number.toString()
-					};
-					const hitShip = (i) => {
-						positions[i] = 'x';
-					}
-					const isSunk = () => {
-						for (let i = 0; i < positions.length; i++) {
-							if (positions[i] === 'o') {
-								return false;
-							}
-							return true;
-						}
-					}
-					return { toString, hitShip, isSunk };
-				};
-
+			placeShips() {
 				//shipFits is not really necessary right now since I am placing them; might come handy later though
-				var newShip = shipFactory(this.ships.length);
-				this.rows[x].splice(y, 1, newShip.toString()); //the length is the highest index + 1, the index we want since we are adding this ship
-				for (let i = 1; i < this.shipLength; i++) {
-					this.rows[x].splice(y+i, 1, [x, y]);
+				for (let shipsIndex = 0; shipsIndex < this.ships.length; shipsIndex++) {
+					var location = this.ships[shipsIndex].getLocation();
+					for (let shipIndex = 0; shipIndex < this.ships[shipIndex].getLength(); shipIndex++) {
+						this.rows[location[0]].splice(location[1]+shipIndex, 1, shipsIndex);
+					}
 				}
-				return newShip;
 			},
 			receiveAttack(x, y) {
 				//either hit ship or record coordinates of the miss
@@ -95,14 +65,14 @@
 				//board can report if all ships sunk
 				if (this.rows[x][y] == null) {
 					//displayMissedAttack([x,y]);
-					return [x, y];
-				} else if (this.rows[x][y].length == 2) {
-					//coordinates of ship object contained
-					var shipX = this.rows[x][y][0];
-					var shipY = this.rows[x][y][1];
-					return this.rows[shipX][shipY].hit(y-shipY);
+					return;
 				} else {
-					return this.rows[x][y].hit(0);
+					var index = y;
+					while ((index < this.dimensions[1]) && (this.rows[x][index] ===  this.rows[x][y])) {
+						index += 1;
+					}
+
+					return this.rows[x][y].hit();
 				}
 			},
 			shipsAllSunk(ships) {
@@ -131,7 +101,7 @@
 <style scoped>
 	.grid-container {
 		display: grid;
-		grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+		grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
 		background-color: teal;
 		border-style: solid;
 		border-color: orange;
@@ -140,7 +110,7 @@
 		text-align: center;
 		border-top: solid;
 		border-right: solid;
-		border-color: silver;
+		border-color: orange;
 	}
 	.hidden div #slot{
 		background-color: black;
