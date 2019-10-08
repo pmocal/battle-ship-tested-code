@@ -57,7 +57,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	div p {
 		color: black;
 		padding: 1%;

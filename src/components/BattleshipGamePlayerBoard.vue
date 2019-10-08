@@ -53,7 +53,7 @@
 				//shipFits is not really necessary right now since I am placing them; might come handy later though
 				for (let shipsIndex = 0; shipsIndex < this.ships.length; shipsIndex++) {
 					var location = this.ships[shipsIndex].getLocation();
-					for (let shipIndex = 0; shipIndex < this.ships[shipIndex].getLength(); shipIndex++) {
+					for (let shipIndex = 0; shipIndex < this.ships[shipsIndex].getLength(); shipIndex++) {
 						this.rows[location[0]].splice(location[1]+shipIndex, 1, shipsIndex);
 					}
 				}
@@ -110,6 +110,7 @@
 		text-align: center;
 		border-top: solid;
 		border-right: solid;
+		border-left: solid;
 		border-color: orange;
 	}
 	.hidden div #slot{

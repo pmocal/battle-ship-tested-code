@@ -19,5 +19,6 @@
 <style scoped>
 	#game {
 		background-color: orange;
+		height: 100%;
 	}
 </style>
