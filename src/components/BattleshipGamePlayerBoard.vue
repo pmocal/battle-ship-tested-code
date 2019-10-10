@@ -1,18 +1,18 @@
 <template>
 	<div
 		class="grid-container"
-		v-bind:class="boardClassifier"
+		v-bind:class="{ computer: isComputer }"
 	>
 		<div
-			v-for="row in rows"
+			v-for="(row, index1) in rows"
 			v-bind:key="row.uuid"
 		>
 			<div
-				id="slot"
-				v-for="item in row"
+				v-for="(item, index2) in row"
 				v-bind:key="item.uuid"
-				v-bind:class="squareClass(item)"
-			>		
+				v-on:click="clicked(index1, index2)"
+				v-bind:class="[{ selected: rowsBooleans[index1][index2] }, squareClass(item)]"
+			>
 				{{ item }}
 			</div>
 		</div>
@@ -29,27 +29,32 @@
 			'ships': Array
 		},
 		computed: {
-			boardClassifier() {
+			isComputer() {
 				if (this.playerName === "Computer") {
-
-					return "hidden";
+					return true;
 				}
-				return "";
+				return false;
 			}
 		},
 		data() {
 			return {
-				rows: []
+				rows: [],
+				rowsBooleans: []
 			}
 		},
 		created() {
 			this.rows = new Array(this.dimensions[0]).fill('O');
+			this.rowsBooleans = new Array(this.dimensions[0]).fill(false);
 			for (let i = 0; i < this.rows.length; i++) {
 				this.$set(this.rows, i, new Array(this.dimensions[1]).fill('O'));
+				this.$set(this.rowsBooleans, i, new Array(this.dimensions[1]).fill(false));
 			}
 			this.placeShips();
 		},
 		methods: {
+			clicked(x, y) {
+				this.rowsBooleans[x].splice(y, 1, true);
+			},
 			placeShips() {
 				//shipFits is not really necessary right now since I am placing them; might come handy later though
 				for (let shipsIndex = 0; shipsIndex < this.ships.length; shipsIndex++) {
@@ -64,15 +69,11 @@
 				//missed attacks tracked so later they can be
 				//displayed on board
 				//board can report if all ships sunk
-				if (this.rows[x][y] == null) {
-					//displayMissedAttack([x,y]);
-					return;
-				} else {
+				if (this.rows[x][y] != null) {
 					var index = y;
 					while ((index < this.dimensions[1]) && (this.rows[x][index] ===  this.rows[x][y])) {
 						index += 1;
 					}
-
 					return this.rows[x][y].hit();
 				}
 			},
@@ -86,17 +87,11 @@
 			},
 			squareClass(item) {
 				if (item != "O") {
-					if (item === "X") {
-						return "missedAttack";
-					}
 					return "ship";
 				}
 			},
 		}
 	}
-	// function shipFits(x, y) {
-	// 	return ((x < this.dimensions[0]) && (y + this.shipLength < this.dimensions[1]));
-	// }
 </script>
 
 <style scoped>
@@ -109,18 +104,17 @@
 	}
 	.grid-container div div{
 		text-align: center;
-		border-top: solid;
-		border-right: solid;
+		border-bottom: solid;
 		border-left: solid;
 		border-color: orange;
 	}
-	.hidden div #slot{
+	.computer div div{
 		background-color: black;
+	}
+	.computer div .selected{
+		background-color: red;
 	}
 	.ship {
 		background-color: green;
-	}
-	.missedAttack {
-		background-color: red;
 	}
 </style>
