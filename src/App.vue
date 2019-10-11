@@ -6,7 +6,11 @@
 
 <script>
 	import BattleshipGame from './components/BattleshipGame.vue'
+	import Vue from 'vue'
+	import Vuex from 'vuex'
 
+	Vue.use(Vuex)
+	
 	export default {
 		name: 'app',
 		components: {

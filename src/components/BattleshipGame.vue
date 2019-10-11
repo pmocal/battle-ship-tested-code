@@ -1,5 +1,6 @@
 <template>
 	<div id="game">
+		<button v-on:click="message='Welcome to BATTLESHIPS. Human goes first.'"> {{ message }} </button>
 		<BattleshipGamePlayer name="Human"/>
 		<BattleshipGamePlayer name="Computer"/>
 	</div>
@@ -12,6 +13,11 @@
 		name: 'BattleshipGame',
 		components: {
 			BattleshipGamePlayer
+		},
+		data() {
+			return {
+				message: "Start Game!"
+			}
 		}
 	}
 </script>
@@ -21,5 +27,8 @@
 		background-color: orange;
 		padding-right: 1%;
 		height: 100%;
+	}
+	button {
+		padding: 1%;
 	}
 </style>

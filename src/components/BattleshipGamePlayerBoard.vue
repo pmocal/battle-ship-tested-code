@@ -51,9 +51,15 @@
 			}
 			this.placeShips();
 		},
+		mounted() {
+			
+		},
 		methods: {
 			clicked(x, y) {
 				this.rowsBooleans[x].splice(y, 1, true);
+				if (typeof(this.rows[x][y]) === "number") {
+					this.ships[this.rows[x][y]].hit();
+				}
 			},
 			placeShips() {
 				//shipFits is not really necessary right now since I am placing them; might come handy later though
@@ -108,13 +114,13 @@
 		border-left: solid;
 		border-color: orange;
 	}
+	.ship {
+		background-color: green;
+	}
 	.computer div div{
 		background-color: black;
 	}
 	.computer div .selected{
 		background-color: red;
-	}
-	.ship {
-		background-color: green;
-	}
+	}	
 </style>
