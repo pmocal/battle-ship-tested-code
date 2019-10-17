@@ -1,19 +1,19 @@
 <template>
 	<div
 		class="grid-container"
-		v-bind:class="{ computer: isComputer }"
+		v-bind:class="{ isComputer: isComputerPlayer }"
 	>
 		<div
 			v-for="(row, index1) in rows"
 			v-bind:key="row.uuid"
 		>
 			<div
-				v-for="(item, index2) in row"
-				v-bind:key="item.uuid"
-				v-on:click="clicked(index1, index2)"
-				v-bind:class="[{ selected: rowsBooleans[index1][index2] }, squareClass(item)]"
+				v-for="(squareItem, index2) in row"
+				v-bind:key="squareItem.uuid"
+				v-on:click="onSquareAttack(index1, index2)"
+				v-bind:class="[{ selected: rowsBooleans[index1][index2] }, getSquareClass(squareItem)]"
 			>
-				{{ item }}
+				{{ squareItem }}
 			</div>
 		</div>
 	</div>
@@ -29,7 +29,7 @@
 			'ships': Array
 		},
 		computed: {
-			isComputer() {
+			isComputerPlayer() {
 				if (this.playerName === "Computer") {
 					return true;
 				}
@@ -51,14 +51,12 @@
 			}
 			this.placeShips();
 		},
-		mounted() {
-			
-		},
 		methods: {
-			clicked(x, y) {
+			onSquareAttack(x, y) {
 				this.rowsBooleans[x].splice(y, 1, true);
 				if (typeof(this.rows[x][y]) === "number") {
 					this.ships[this.rows[x][y]].hit();
+					this.$store.state.message = "hit!";
 				}
 			},
 			placeShips() {
@@ -70,28 +68,7 @@
 					}
 				}
 			},
-			receiveAttack(x, y) {
-				//either hit ship or record coordinates of the miss
-				//missed attacks tracked so later they can be
-				//displayed on board
-				//board can report if all ships sunk
-				if (this.rows[x][y] != null) {
-					var index = y;
-					while ((index < this.dimensions[1]) && (this.rows[x][index] ===  this.rows[x][y])) {
-						index += 1;
-					}
-					return this.rows[x][y].hit();
-				}
-			},
-			shipsAllSunk(ships) {
-				for (let i = 0; i < ships.length; i++) {
-					if (ships[i].isSunk() == false){
-						return false;
-					}
-				}
-				return true;
-			},
-			squareClass(item) {
+			getSquareClass(item) {
 				if (item != "O") {
 					return "ship";
 				}
@@ -117,10 +94,10 @@
 	.ship {
 		background-color: green;
 	}
-	.computer div div{
+	.isComputer div div{
 		background-color: black;
 	}
-	.computer div .selected{
+	.isComputer div .selected{
 		background-color: red;
 	}	
 </style>

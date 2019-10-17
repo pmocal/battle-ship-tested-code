@@ -10,9 +10,25 @@
 	import Vuex from 'vuex'
 
 	Vue.use(Vuex)
+
+	const store = new Vuex.Store({
+		state: {
+			ships: [],
+			message: "Start game!"
+		},
+		mutations: {
+			addShip(ship) {
+				this.ships.push(ship);
+			},
+			changeMessage(newMessage) {
+				this.message = newMessage;
+			}
+		}
+	})
 	
 	export default {
 		name: 'app',
+		store,
 		components: {
 			BattleshipGame
 		}
