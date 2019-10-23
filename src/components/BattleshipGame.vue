@@ -2,7 +2,7 @@
 	<div id="game">
 		<button id="startButton" v-on:click="start"> {{ this.$store.state.message }} </button>
 		<p id="messageBoard"> {{ this.$store.state.message }} </p>
-		<BattleshipGamePlayer name="Human"/>
+		<BattleshipGamePlayer ref="human" name="Human"/>
 		<BattleshipGamePlayer id="computer" name="Computer"/>
 	</div>
 </template>
@@ -16,17 +16,9 @@
 			BattleshipGamePlayer
 		},
 		methods: {
-			shipsAllSunk() {
-				for (let shipsIndex = 0; shipsIndex < this.ships.length; shipsIndex++) {
-					if (this.ships[shipsIndex].getHitsRemaining() != 0) {
-						return false;
-					}
-					return true;
-				}
-			},
 			start() {
 				document.getElementById("startButton").style.display = "none";
-				this.$store.state.message = "Player goes first!";
+				this.$store.commit('changeMessage', "Player goes first!");
 				document.getElementById("messageBoard").style.display = "block";
 				document.getElementById("computer").style.pointerEvents = "auto";
 			}
@@ -47,6 +39,7 @@
 
 	#game div {
 		pointer-events: none;
+		user-select: none;
 	}
 
 	button {

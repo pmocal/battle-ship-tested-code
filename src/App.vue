@@ -13,15 +13,22 @@
 
 	const store = new Vuex.Store({
 		state: {
-			ships: [],
+			ships: {
+				"Human": [],
+				"Computer": []
+			},
+			// these ships need to be separated out for comp and human
 			message: "Start game!"
 		},
 		mutations: {
-			addShip(ship) {
-				this.ships.push(ship);
+			addShip(state, payload) {
+				state.ships[payload.key].push(payload.ship);
 			},
-			changeMessage(newMessage) {
-				this.message = newMessage;
+			hitShip(state, payload) {
+				state.ships[payload.key][payload.index].hit();
+			},
+			changeMessage(state, newMessage) {
+				state.message = newMessage;
 			}
 		}
 	})
