@@ -20,7 +20,12 @@
 				document.getElementById("startButton").style.display = "none";
 				this.$store.commit('changeMessage', "Computer goes first!");
 				document.getElementById("messageBoard").style.display = "block";
-				this.$refs.human.computerAttack();
+				var delayInMilliseconds = 1000; //1 second
+				const self = this;
+				setTimeout(function() {
+					self.$refs.human.computerAttack();
+				}, delayInMilliseconds);
+				
 			}
 		}
 	}
