@@ -15,17 +15,42 @@
 		components: {
 			BattleshipGamePlayer
 		},
+		computed: {
+			shipsSunk: function(player) {
+				for (const ship of this.$store.state.ships[player]) {
+					if (ship.getHitsRemaining() != 0) {
+						return false;
+					}
+				}
+				return true;
+			}
+		},
 		methods: {
 			start() {
 				document.getElementById("startButton").style.display = "none";
-				this.$store.commit('changeMessage', "Computer goes first!");
-				document.getElementById("messageBoard").style.display = "block";
-				var delayInMilliseconds = 1000; //1 second
-				const self = this;
-				setTimeout(function() {
-					self.$refs.human.computerAttack();
-				}, delayInMilliseconds);
-				
+				var humanShipsSunk = false;
+				var computerShipsSunk = false;
+				while (!humanShipsSunk && !computerShipsSunk) {
+					this.$store.commit('changeMessage', "Computer's turn!");
+					document.getElementById("messageBoard").style.display = "block";
+					var longDelayInMilliseconds = 1000;
+					const self = this;
+					setTimeout(function() {
+						self.$refs.human.computerAttack();
+					}, longDelayInMilliseconds)
+					var shortDelayInMilliseconds = 500;
+					setTimeout(function() {
+						this.$store.commit('changeMessage', "Human's turn!");
+					}, shortDelayInMilliseconds)
+					document.getElementById("computer").pointerEvents = "auto";
+
+
+					//check if game ended
+					humanShipsSunk = this.shipsSunk("Human");
+					computerShipsSunk = this.shipsSunk("Computer");
+					humanShipsSunk = true;
+					computerShipsSunk = true;
+				}			
 			}
 		}
 	}
