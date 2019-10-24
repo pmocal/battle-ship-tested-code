@@ -3,7 +3,7 @@
 		<p>{{ name }}</p>
 		<div
 			class="grid-container"
-			v-bind:class="{ computerBoard: isComputerBoard }"
+			v-bind:class="name"
 		>
 			<div
 				v-for="(row, index1) in rows"
@@ -27,15 +27,6 @@
 		name: 'BattleshipGamePlayer',
 		props: {
 			'name': String
-		},
-		computed: {
-			isComputerBoard() {
-				if (this.name === "Computer") {
-					return true;
-				}
-				return false;
-			}
-
 		},
 		data() {
 			return {
@@ -143,10 +134,10 @@
 	.ship {
 		background-color: green;
 	}
-	.computerBoard div div{
+	.Computer div div{
 		background-color: black;
 	}
-	.computerBoard div .selected{
+	.Computer div .selected{
 		background-color: red;
 	}
 </style>
