@@ -16,13 +16,8 @@
 			BattleshipGamePlayer
 		},
 		computed: {
-			shipsSunk: function(player) {
-				for (const ship of this.$store.state.ships[player]) {
-					if (ship.getHitsRemaining() != 0) {
-						return false;
-					}
-				}
-				return true;
+			shipsSunk() {
+				return false;
 			}
 		},
 		methods: {
@@ -40,14 +35,14 @@
 					}, longDelayInMilliseconds)
 					var shortDelayInMilliseconds = 500;
 					setTimeout(function() {
-						this.$store.commit('changeMessage', "Human's turn!");
+						self.$store.commit('changeMessage', "Human's turn!");
 					}, shortDelayInMilliseconds)
 					document.getElementById("computer").pointerEvents = "auto";
 
 
 					//check if game ended
-					humanShipsSunk = this.shipsSunk("Human");
-					computerShipsSunk = this.shipsSunk("Computer");
+					humanShipsSunk = this.shipsSunk();
+					computerShipsSunk = this.shipsSunk();
 					humanShipsSunk = true;
 					computerShipsSunk = true;
 				}			
