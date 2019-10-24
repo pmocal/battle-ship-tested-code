@@ -18,9 +18,9 @@
 		methods: {
 			start() {
 				document.getElementById("startButton").style.display = "none";
-				this.$store.commit('changeMessage', "Player goes first!");
+				this.$store.commit('changeMessage', "Computer goes first!");
 				document.getElementById("messageBoard").style.display = "block";
-				document.getElementById("computer").style.pointerEvents = "auto";
+				this.$refs.human.computerAttack();
 			}
 		}
 	}

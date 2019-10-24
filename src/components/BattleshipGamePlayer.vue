@@ -12,7 +12,7 @@
 				<div
 					v-for="(squareItem, index2) in row"
 					v-bind:key="squareItem.uuid"
-					v-on:click="uponHumanAttack(index1, index2)"
+					v-on:click="uponAttack(index1, index2)"
 					v-bind:class="[{ selected: rowsBooleans[index1][index2] }, getSquareClass(squareItem)]"
 				>
 					{{ squareItem }}
@@ -35,20 +35,23 @@
 				}
 				return false;
 			}
+
 		},
 		data() {
 			return {
 				rows: [],
 				rowsBooleans: [],
-				dimensions: [10, 10]
+				dimensions: [10, 10],
+				EMPTY_SPACE: 'O',
+				MISSED_ATTACK: 'X'
 			}
 		},
 		created() {
 			this.initializeShips();
-			this.rows = new Array(this.dimensions[0]).fill('O');
+			this.rows = new Array(this.dimensions[0]).fill(this.EMPTY_SPACE);
 			this.rowsBooleans = new Array(this.dimensions[0]).fill(false);
 			for (let i = 0; i < this.rows.length; i++) {
-				this.$set(this.rows, i, new Array(this.dimensions[1]).fill('O'));
+				this.$set(this.rows, i, new Array(this.dimensions[1]).fill(this.EMPTY_SPACE));
 				this.$set(this.rowsBooleans, i, new Array(this.dimensions[1]).fill(false));
 			}
 			this.placeShips();
@@ -80,22 +83,26 @@
 					});
 				}
 			},
-			uponHumanAttack(x, y) {
+			uponAttack(x, y) {
 				this.rowsBooleans[x].splice(y, 1, true);
-				if (typeof(this.rows[x][y]) === "number") {
+				
+				function isShip(value) {
+					return (typeof(value) === "number");
+				}
+
+				if (isShip(this.rows[x][y])) {
 					this.$store.commit({
 						type: 'hitShip',
 						key: this.name,
 						index: this.rows[x][y]
 					});
-					this.$store.commit('changeMessage', "hit!");
+					this.$store.commit('changeMessage', this.name + " got hit!");
 				}
 				else {
 					this.$store.commit('changeMessage', "miss!");
 				}
 			},
 			placeShips() {
-				//shipFits is not really necessary right now since I am placing them; might come handy later though
 				for (let shipsIndex = 0; shipsIndex < this.$store.state.ships[this.name].length; shipsIndex++) {
 					var location = this.$store.state.ships[this.name][shipsIndex].getLocation();
 					for (let shipIndex = 0; shipIndex < this.$store.state.ships[this.name][shipsIndex].getLength(); shipIndex++) {
@@ -104,7 +111,7 @@
 				}
 			},
 			getSquareClass(item) {
-				if (item != "O") {
+				if (item != this.EMPTY_SPACE) {
 					return "ship";
 				}
 			},
