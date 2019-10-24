@@ -140,4 +140,7 @@
 	.Computer div .selected{
 		background-color: red;
 	}
+	.Human div .selected{
+		background-color: red;
+	}
 </style>
