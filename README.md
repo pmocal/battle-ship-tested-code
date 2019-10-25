@@ -1,13 +1,13 @@
 # Battleships
 
-## Game Description
+## Description
 
 Play a finely tuned game of Battleships against a Computer opponent.
 
-## Game Development
+## Development
 
 Web application built in Vue.js and hosted through Node.js on Heroku.
 
-## Game screenshot
+## Screenshot
 
 ![Screenshot.png](Screenshot.png)
