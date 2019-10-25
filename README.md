@@ -4,10 +4,10 @@
 
 Play a finely tuned game of Battleships against a Computer opponent.
 
-## Development
+### Development
 
 Web application built in Vue.js and hosted through Node.js on Heroku.
 
-## Screenshot
+### Screenshot
 
 ![Screenshot.png](Screenshot.png)
