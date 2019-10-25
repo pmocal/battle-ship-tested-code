@@ -29,15 +29,20 @@
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
 					var longDelayInMilliseconds = 1000;
+					var shortDelayInMilliseconds = 500;
 					const self = this;
 					setTimeout(function() {
 						self.$refs.human.computerAttack();
+						setTimeout(function() {
+							self.$store.commit('changeMessage', "Human's turn!");
+							document.getElementById("computer").pointerEvents = "auto";
+						}, shortDelayInMilliseconds)
 					}, longDelayInMilliseconds)
-					var shortDelayInMilliseconds = 500;
-					setTimeout(function() {
-						self.$store.commit('changeMessage', "Human's turn!");
-					}, shortDelayInMilliseconds)
-					document.getElementById("computer").pointerEvents = "auto";
+
+
+					
+					
+					
 
 
 					//check if game ended
