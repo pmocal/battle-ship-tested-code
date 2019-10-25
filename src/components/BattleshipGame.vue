@@ -29,14 +29,13 @@
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
 					var longDelayInMilliseconds = 1000;
-					var shortDelayInMilliseconds = 500;
 					const self = this;
 					setTimeout(function() {
 						self.$refs.human.computerAttack();
 						setTimeout(function() {
 							self.$store.commit('changeMessage', "Human's turn!");
-							document.getElementById("computer").pointerEvents = "auto";
-						}, shortDelayInMilliseconds)
+							document.getElementById("computer").style.pointerEvents = "auto";
+						}, longDelayInMilliseconds)
 					}, longDelayInMilliseconds)
 
 
@@ -46,8 +45,8 @@
 
 
 					//check if game ended
-					humanShipsSunk = this.shipsSunk();
-					computerShipsSunk = this.shipsSunk();
+					//humanShipsSunk = this.shipsSunk();
+					//computerShipsSunk = this.shipsSunk();
 					humanShipsSunk = true;
 					computerShipsSunk = true;
 				}			
