@@ -33,7 +33,6 @@
 		},
 		getters: {
 			humanShipsSunk: (state) => () => {
-				console.log(state.ships["Human"].filter(ship => (ship.getHitsRemaining() > 0)));
 				return (state.ships["Human"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
 			},
 			computerShipsSunk: state => {

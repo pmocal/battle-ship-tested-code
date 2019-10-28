@@ -62,7 +62,6 @@
 					}
 					function hit() {
 						hitsRemaining -= 1;
-						console.log(getHitsRemaining());
 					}
 					return { getLength, getLocation, getHitsRemaining, hit };
 				};

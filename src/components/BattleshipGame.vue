@@ -16,26 +16,23 @@
 			BattleshipGamePlayer
 		},
 		methods: {
-			start() {
+			sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
+			},
+			async start() {
 				document.getElementById("startButton").style.display = "none";
-				// var humanShipsSunk = false;
-				// var computerShipsSunk = false;
-				let counter = 0;
-				while ((counter < 500) && (this.$store.getters.humanShipsSunk() == false)) {
-				// while (!humanShipsSunk && !computerShipsSunk) {
+				while (this.$store.getters.humanShipsSunk() == false) {
+					await this.sleep(1000);
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
-					var longDelayInMilliseconds = 1000;
-					const self = this;
-					self.$refs.human.computerAttack();
-					// setTimeout(function() {
+					await this.sleep(1000);
+					this.$refs.human.computerAttack();
+					await this.sleep(1000);
 					// 	self.$store.commit('changeMessage', "Human's turn!");
 					// 	document.getElementById("computer").style.pointerEvents = "auto";
-					// }, longDelayInMilliseconds)
-					counter += 1;
+
 					// humanShipsSunk = true;
 					// computerShipsSunk = true;
-					console.log(counter);
 				}			
 			}
 		}
