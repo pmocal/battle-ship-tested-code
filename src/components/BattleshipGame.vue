@@ -34,7 +34,14 @@
 					this.$store.commit('changeMessage', "Human's turn!");
 					document.getElementById("computer").style.pointerEvents = "auto";
 					await this.humanTurnFinished();
-				}			
+				}
+				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
+					this.$store.commit('changeMessage', "TIE GAME!");
+				} else if (this.$store.getters.humanShipsSunk() == true) {
+					this.$store.commit('changeMessage', "COMPUTER WINS.")
+				} else if (this.$store.getters.computerShipsSunk() == true) {
+					this.$store.commit('changeMessage', "Human wins!")
+				}
 			}
 		}
 	}
