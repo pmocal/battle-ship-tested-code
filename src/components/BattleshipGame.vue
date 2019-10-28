@@ -34,6 +34,7 @@
 					this.$store.commit('changeMessage', "Human's turn!");
 					document.getElementById("computer").style.pointerEvents = "auto";
 					await this.humanTurnFinished();
+					document.getElementById("computer").style.pointerEvents = "none";
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
