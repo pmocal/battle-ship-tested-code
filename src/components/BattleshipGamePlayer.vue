@@ -34,7 +34,7 @@
 				rowsBooleans: [],
 				dimensions: [10, 10],
 				EMPTY_SPACE: 'O',
-				spaceAttackedByComputer: []
+				spacesAttackedByComputer: []
 			}
 		},
 		created() {
@@ -107,11 +107,15 @@
 				}
 			},
 			computerAttack() {
-				var spaceX = Math.round(Math.random() * this.dimensions[0]);
-				var spaceY = Math.round(Math.random() * this.dimensions[1]);
-				if (!this.spaceAttackedByComputer.includes([spaceX, spaceY])) {
+				var spaceX = Math.round(Math.random() * (this.dimensions[0]-1));
+				var spaceY = Math.round(Math.random() * (this.dimensions[1]-1));
+				if (this.spacesAttackedByComputer.includes([spaceX, spaceY])) {
+					return;
+				} else {
+					this.spacesAttackedByComputer.push([spaceX, spaceY]);
 					this.uponAttack(spaceX, spaceY);
 				}
+				console.log(this.spacesAttackedByComputer);
 			}
 		}
 	}
