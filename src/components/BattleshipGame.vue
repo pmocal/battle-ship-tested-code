@@ -20,7 +20,7 @@
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
 			humanTurnFinished() {
-				return new Promise(function(resolve, reject) {
+				return new Promise(function(resolve) {
 					document.getElementById("computer").onclick = resolve;
 				})
 			},
