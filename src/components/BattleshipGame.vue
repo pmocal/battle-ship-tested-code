@@ -39,9 +39,10 @@
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
 				} else if (this.$store.getters.humanShipsSunk() == true) {
-					this.$store.commit('changeMessage', "COMPUTER WINS.")
+					this.$store.commit('changeMessage', "COMPUTER WINS.");
 				} else if (this.$store.getters.computerShipsSunk() == true) {
-					this.$store.commit('changeMessage', "Human wins!")
+					this.$store.commit('changeMessage', "Human wins!");
+					document.body.style.backgroundColor = "blue";
 				}
 			}
 		}
