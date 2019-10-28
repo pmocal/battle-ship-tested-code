@@ -15,11 +15,6 @@
 		components: {
 			BattleshipGamePlayer
 		},
-		computed: {
-			shipsSunk() {
-				return false;
-			}
-		},
 		methods: {
 			start() {
 				document.getElementById("startButton").style.display = "none";
@@ -37,16 +32,6 @@
 							document.getElementById("computer").style.pointerEvents = "auto";
 						}, longDelayInMilliseconds)
 					}, longDelayInMilliseconds)
-
-
-					
-					
-					
-
-
-					//check if game ended
-					//humanShipsSunk = this.shipsSunk();
-					//computerShipsSunk = this.shipsSunk();
 					humanShipsSunk = true;
 					computerShipsSunk = true;
 				}			

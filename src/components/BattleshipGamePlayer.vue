@@ -34,7 +34,7 @@
 				rowsBooleans: [],
 				dimensions: [10, 10],
 				EMPTY_SPACE: 'O',
-				MISSED_ATTACK: 'X'
+				spaceAttackedByComputer: []
 			}
 		},
 		created() {
@@ -107,7 +107,11 @@
 				}
 			},
 			computerAttack() {
-				this.uponAttack(Math.round(Math.random() * this.dimensions[0]), Math.round(Math.random() * this.dimensions[1]));
+				var spaceX = Math.round(Math.random() * this.dimensions[0]);
+				var spaceY = Math.round(Math.random() * this.dimensions[1]);
+				if (!this.spaceAttackedByComputer.includes([spaceX, spaceY])) {
+					this.uponAttack(spaceX, spaceY);
+				}
 			}
 		}
 	}
