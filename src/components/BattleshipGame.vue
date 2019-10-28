@@ -18,10 +18,10 @@
 		methods: {
 			start() {
 				document.getElementById("startButton").style.display = "none";
-				var humanShipsSunk = false;
-				var computerShipsSunk = false;
+				// var humanShipsSunk = false;
+				// var computerShipsSunk = false;
 				let counter = 0;
-				while (counter < 101) {
+				while ((counter < 500) && (this.$store.getters.humanShipsSunk == false)) {
 				// while (!humanShipsSunk && !computerShipsSunk) {
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";

@@ -30,6 +30,14 @@
 			changeMessage(state, newMessage) {
 				state.message = newMessage;
 			}
+		},
+		getters: {
+			humanShipsSunk: state => {
+				return (state.ships["Human"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
+			},
+			computerShipsSunk: state => {
+				return (state.ships["Computer"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
+			}
 		}
 	})
 	
