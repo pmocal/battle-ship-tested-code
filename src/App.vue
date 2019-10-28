@@ -35,7 +35,7 @@
 			humanShipsSunk: (state) => () => {
 				return (state.ships["Human"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
 			},
-			computerShipsSunk: state => {
+			computerShipsSunk: (state) => () => {
 				return (state.ships["Computer"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
 			}
 		}

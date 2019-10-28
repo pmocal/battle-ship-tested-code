@@ -19,20 +19,21 @@
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
+			humanTurnFinished() {
+				return new Promise(function(resolve, reject) {
+					document.getElementById("computer").onclick = resolve;
+				})
+			},
 			async start() {
 				document.getElementById("startButton").style.display = "none";
-				while (this.$store.getters.humanShipsSunk() == false) {
-					await this.sleep(1000);
+				while ((this.$store.getters.humanShipsSunk() == false) && (this.$store.getters.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
 					await this.sleep(1000);
 					this.$refs.human.computerAttack();
-					await this.sleep(1000);
-					// 	self.$store.commit('changeMessage', "Human's turn!");
-					// 	document.getElementById("computer").style.pointerEvents = "auto";
-
-					// humanShipsSunk = true;
-					// computerShipsSunk = true;
+					this.$store.commit('changeMessage', "Human's turn!");
+					document.getElementById("computer").style.pointerEvents = "auto";
+					await this.humanTurnFinished();
 				}			
 			}
 		}
