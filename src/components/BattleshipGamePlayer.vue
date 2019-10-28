@@ -51,9 +51,6 @@
 			initializeShips() {
 				const shipFactory = (length, location) => {
 					var hitsRemaining = length;
-					function hit() {
-						hitsRemaining -= 1;
-					}
 					function getHitsRemaining() {
 						return hitsRemaining;
 					}
@@ -62,6 +59,10 @@
 					}
 					function getLocation() {
 						return location;
+					}
+					function hit() {
+						hitsRemaining -= 1;
+						console.log(getHitsRemaining());
 					}
 					return { getLength, getLocation, getHitsRemaining, hit };
 				};

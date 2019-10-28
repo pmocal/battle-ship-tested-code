@@ -21,22 +21,21 @@
 				// var humanShipsSunk = false;
 				// var computerShipsSunk = false;
 				let counter = 0;
-				while ((counter < 500) && (this.$store.getters.humanShipsSunk == false)) {
+				while ((counter < 500) && (this.$store.getters.humanShipsSunk() == false)) {
 				// while (!humanShipsSunk && !computerShipsSunk) {
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
 					var longDelayInMilliseconds = 1000;
 					const self = this;
-					setTimeout(function() {
-						self.$refs.human.computerAttack();
-						// setTimeout(function() {
-						// 	self.$store.commit('changeMessage', "Human's turn!");
-						// 	document.getElementById("computer").style.pointerEvents = "auto";
-						// }, longDelayInMilliseconds)
-					}, longDelayInMilliseconds)
+					self.$refs.human.computerAttack();
+					// setTimeout(function() {
+					// 	self.$store.commit('changeMessage', "Human's turn!");
+					// 	document.getElementById("computer").style.pointerEvents = "auto";
+					// }, longDelayInMilliseconds)
 					counter += 1;
 					// humanShipsSunk = true;
 					// computerShipsSunk = true;
+					console.log(counter);
 				}			
 			}
 		}
