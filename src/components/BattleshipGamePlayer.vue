@@ -109,13 +109,21 @@
 			computerAttack() {
 				var spaceX = Math.round(Math.random() * (this.dimensions[0]-1));
 				var spaceY = Math.round(Math.random() * (this.dimensions[1]-1));
-				if (this.spacesAttackedByComputer.includes([spaceX, spaceY])) {
-					return;
-				} else {
-					this.spacesAttackedByComputer.push([spaceX, spaceY]);
-					this.uponAttack(spaceX, spaceY);
+				var a = [spaceX, spaceY];
+				for (let index = 0; index < this.spacesAttackedByComputer.length; index++) {
+					let b = this.spacesAttackedByComputer[index];
+					let flag = true;
+					for (let i = 0; i < a.length; i++) {
+						if (a[i] != b[i]) {
+							flag = false;
+						}
+					}
+					if (flag) {
+						return;
+					}
 				}
-				console.log(this.spacesAttackedByComputer);
+				this.spacesAttackedByComputer.push([spaceX, spaceY]);
+				this.uponAttack(spaceX, spaceY);
 			}
 		}
 	}

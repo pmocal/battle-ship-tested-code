@@ -35,7 +35,6 @@
 						// }, longDelayInMilliseconds)
 					}, longDelayInMilliseconds)
 					counter += 1;
-					console.log(counter);
 					// humanShipsSunk = true;
 					// computerShipsSunk = true;
 				}			
