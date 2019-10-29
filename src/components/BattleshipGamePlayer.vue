@@ -49,7 +49,15 @@
 		},
 		methods: {
 			initializeShips() {
-				const shipFactory = (length, location) => {
+				const shipFactory = () => {
+					//location[0] < dimensions[0]
+					//rand() * (dimensions[0] - 1)
+					var locationX = Math.round(Math.random() * (this.dimensions[0]-1));
+					//location[1] + shiplength < dimensions[1]
+					//randomly choose one of the two then randomly choose dimensions[1] - 1 - first choice
+					var locationY = Math.round(Math.random() * (this.dimensions[1]-1));
+					var length = Math.round(Math.random() * (this.dimensions[1]-1-locationY));
+					var location = [locationX, locationY];
 					var hitsRemaining = length;
 					function getHitsRemaining() {
 						return hitsRemaining;
@@ -65,12 +73,11 @@
 					}
 					return { getLength, getLocation, getHitsRemaining, hit };
 				};
-				var shipLengths = [1, 4, 5, 2];
 				for (let index = 0; index < 4; index++) {
 					this.$store.commit({
 						type: 'addShip',
 						key: this.name,
-						ship: shipFactory(shipLengths[index], [index, index])
+						ship: shipFactory()
 					});
 				}
 			},
