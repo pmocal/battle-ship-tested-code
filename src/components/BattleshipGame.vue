@@ -1,9 +1,15 @@
 <template>
 	<div id="game">
 		<button id="startButton" v-on:click="start"> {{ this.$store.state.message }} </button>
+		<div
+			v-for="(ship, index) in ships['Human']"
+			v-bind:key="ship.uuid"
+		>
+			{{ ship.getLength() }}<input type="text">
+		</div>
 		<p id="messageBoard"> {{ this.$store.state.message }} </p>
-		<BattleshipGamePlayer ref="human" name="Human"/>
-		<BattleshipGamePlayer id="computer" name="Computer"/>
+		<BattleshipGamePlayer ref="human" name="Human" :ships="ships" :dimensions="dimensions"/>
+		<BattleshipGamePlayer id="computer" name="Computer" :ships="ships" :dimensions="dimensions"/>
 	</div>
 </template>
 
@@ -15,7 +21,47 @@
 		components: {
 			BattleshipGamePlayer
 		},
+		data() {
+			return {
+				dimensions: [10, 10],
+				numShips: 5,
+				ships: {
+					"Human": [],
+					"Computer": []
+				}
+			}
+		},
 		methods: {
+			initializeShips() {
+				const shipFactory = (name, length) => {
+					if (name === "Computer") {
+						location = 
+					}
+					var hitsRemaining = length;
+					function getHitsRemaining() {
+						return hitsRemaining;
+					}
+					function getLength() {
+						return length;
+					}
+					function setLocation() {
+						return location;
+					}
+					function hit() {
+						hitsRemaining -= 1;
+					}
+					return { getLength, getLocation, getHitsRemaining, hit };
+				};
+				for (let i = 0; i < this.numShips; i++) {
+					this.ships["Computer"].push(shipFactory())
+				}
+			},
+			validateLocations(shipArray) {
+				//nested for loop
+					//if x values are diff, move on
+					// if x values are same, check if y value 
+					// say 
+			}
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
@@ -25,8 +71,9 @@
 				})
 			},
 			async start() {
+				this.initializeShips();
 				document.getElementById("startButton").style.display = "none";
-				while ((this.$store.getters.humanShipsSunk() == false) && (this.$store.getters.computerShipsSunk() == false)) {
+				while ((this.humanShipsSunk() == false) && (this.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";
 					await this.sleep(1000);
@@ -36,11 +83,11 @@
 					await this.humanTurnFinished();
 					document.getElementById("computer").style.pointerEvents = "none";
 				}
-				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
+				if ((this.humanShipsSunk() == true) && (this.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
-				} else if (this.$store.getters.humanShipsSunk() == true) {
+				} else if (this.humanShipsSunk() == true) {
 					this.$store.commit('changeMessage', "COMPUTER WINS.");
-				} else if (this.$store.getters.computerShipsSunk() == true) {
+				} else if (this.computerShipsSunk() == true) {
 					this.$store.commit('changeMessage', "Human wins!");
 					document.body.style.backgroundColor = "blue";
 				}

@@ -26,59 +26,33 @@
 	export default {
 		name: 'BattleshipGamePlayer',
 		props: {
-			'name': String
+			name: String,
+			ships: Object,
+			dimensions: Array
 		},
 		data() {
 			return {
-				rows: [],
-				rowsBooleans: [],
-				dimensions: [10, 10],
+				spacesAttackedByComputer: [],
 				EMPTY_SPACE: 'O',
-				spacesAttackedByComputer: []
+				rows: [],
+				rowsBooleans: []
 			}
 		},
 		created() {
-			this.initializeShips();
 			this.rows = new Array(this.dimensions[0]).fill(this.EMPTY_SPACE);
 			this.rowsBooleans = new Array(this.dimensions[0]).fill(false);
 			for (let i = 0; i < this.rows.length; i++) {
 				this.$set(this.rows, i, new Array(this.dimensions[1]).fill(this.EMPTY_SPACE));
 				this.$set(this.rowsBooleans, i, new Array(this.dimensions[1]).fill(false));
 			}
-			this.placeShips();
 		},
 		methods: {
-			initializeShips() {
-				const shipFactory = () => {
-					//location[0] < dimensions[0]
-					//rand() * (dimensions[0] - 1)
-					var locationX = Math.round(Math.random() * (this.dimensions[0]-1));
-					//location[1] + shiplength < dimensions[1]
-					//randomly choose one of the two then randomly choose dimensions[1] - 1 - first choice
-					var locationY = Math.round(Math.random() * (this.dimensions[1]-1));
-					var length = Math.round(Math.random() * (this.dimensions[1]-1-locationY));
-					var location = [locationX, locationY];
-					var hitsRemaining = length;
-					function getHitsRemaining() {
-						return hitsRemaining;
+			placeShips() {
+				for (let shipsIndex = 0; shipsIndex < this.$store.state.ships[this.name].length; shipsIndex++) {
+					var location = this.$store.state.ships[this.name][shipsIndex].getLocation();
+					for (let shipIndex = 0; shipIndex < this.$store.state.ships[this.name][shipsIndex].getLength(); shipIndex++) {
+						this.rows[location[0]].splice(location[1]+shipIndex, 1, shipsIndex);
 					}
-					function getLength() {
-						return length;
-					}
-					function getLocation() {
-						return location;
-					}
-					function hit() {
-						hitsRemaining -= 1;
-					}
-					return { getLength, getLocation, getHitsRemaining, hit };
-				};
-				for (let index = 0; index < 4; index++) {
-					this.$store.commit({
-						type: 'addShip',
-						key: this.name,
-						ship: shipFactory()
-					});
 				}
 			},
 			uponAttack(x, y) {
@@ -98,14 +72,6 @@
 				}
 				else {
 					this.$store.commit('changeMessage', "miss!");
-				}
-			},
-			placeShips() {
-				for (let shipsIndex = 0; shipsIndex < this.$store.state.ships[this.name].length; shipsIndex++) {
-					var location = this.$store.state.ships[this.name][shipsIndex].getLocation();
-					for (let shipIndex = 0; shipIndex < this.$store.state.ships[this.name][shipsIndex].getLength(); shipIndex++) {
-						this.rows[location[0]].splice(location[1]+shipIndex, 1, shipsIndex);
-					}
 				}
 			},
 			getSquareClass(item) {

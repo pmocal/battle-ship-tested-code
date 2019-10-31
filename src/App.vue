@@ -13,30 +13,11 @@
 
 	const store = new Vuex.Store({
 		state: {
-			ships: {
-				"Human": [],
-				"Computer": []
-			},
-			// these ships need to be separated out for comp and human
 			message: "Start game!"
 		},
 		mutations: {
-			addShip(state, payload) {
-				state.ships[payload.key].push(payload.ship);
-			},
-			hitShip(state, payload) {
-				state.ships[payload.key][payload.index].hit();
-			},
 			changeMessage(state, newMessage) {
 				state.message = newMessage;
-			}
-		},
-		getters: {
-			humanShipsSunk: (state) => () => {
-				return (state.ships["Human"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
-			},
-			computerShipsSunk: (state) => () => {
-				return (state.ships["Computer"].filter(ship => (ship.getHitsRemaining() > 0)).length == 0)
 			}
 		}
 	})
