@@ -1,30 +1,59 @@
 <template>
-	<div id="game">
-		<button id="startButton" v-on:click="start"> {{ this.$store.state.message }} </button>
-		<div
-			v-for="(ship, index) in ships['Human']"
-			v-bind:key="ship.uuid"
-		>
-			{{ ship.getLength() }}<input type="text">
+	<div
+		id="game"
+		v-if="this.show"
+	>
+		<div>
+			<div
+				v-for="shipLength in this.shipLengths"
+				:key="shipLength.uuid"
+			>
+				ship length: {{ shipLength }} <input placeholder="ship location">
+			</div>
+			<button @click="addLocations">Add locations</button>
+			<p>{{ locations }}</p>
 		</div>
-		<p id="messageBoard"> {{ this.$store.state.message }} </p>
-		<BattleshipGamePlayer ref="human" name="Human" :ships="ships" :dimensions="dimensions"/>
-		<BattleshipGamePlayer id="computer" name="Computer" :ships="ships" :dimensions="dimensions"/>
+		<div id="gameScreen">
+			<p> {{ this.$store.state.message }} </p>
+			<BattleshipGameBoard
+				ref="human"
+				name="Human"
+				:ships="ships"
+				:dimensions="dimensions"
+			/>
+			<BattleshipGameBoard
+				id="computer"
+				name="Computer"
+				:ships="ships"
+				:dimensions="dimensions"
+			/>
+		</div>
 	</div>
 </template>
 
 <script>
-	import BattleshipGamePlayer from './BattleshipGamePlayer.vue'
+	import BattleshipGameBoard from './BattleshipGameBoard.vue'
 
 	export default {
 		name: 'BattleshipGame',
 		components: {
-			BattleshipGamePlayer
+			BattleshipGameBoard
+		},
+		props: {
+			show: Boolean
+		},
+		created() {
+			for (let i = 0; i < this.numShips; i++) {
+				this.shipLengths.push(Math.round(Math.random() * (this.dimensions[1] - 1)));
+			}
 		},
 		data() {
 			return {
 				dimensions: [10, 10],
 				numShips: 5,
+				locations: [],
+				shipLengths: [],
+				shipLocations: [],
 				ships: {
 					"Human": [],
 					"Computer": []
@@ -32,36 +61,43 @@
 			}
 		},
 		methods: {
+			addLocations(){
+				this.locations.push(this.shipLocations);
+			},
 			initializeShips() {
 				const shipFactory = (name, length) => {
-					if (name === "Computer") {
-						location = 
-					}
 					var hitsRemaining = length;
+					location = null;
 					function getHitsRemaining() {
 						return hitsRemaining;
 					}
 					function getLength() {
 						return length;
 					}
-					function setLocation() {
+					function getLocation() {
 						return location;
+					}
+					function setLocation(loc) {
+						location = loc;
 					}
 					function hit() {
 						hitsRemaining -= 1;
 					}
-					return { getLength, getLocation, getHitsRemaining, hit };
+					return { getLength, getLocation, setLocation, getHitsRemaining, hit };
 				};
 				for (let i = 0; i < this.numShips; i++) {
 					this.ships["Computer"].push(shipFactory())
 				}
 			},
-			validateLocations(shipArray) {
-				//nested for loop
+			validateLocation(array) {
+				//for loop
 					//if x values are diff, move on
-					// if x values are same, check if y value 
-					// say 
-			}
+					// else if x values are same, check y values
+						// if y1 + length < y2 move on
+						// if y1 + length > y2 and y2 + length < y1 move on
+						// else new ship doesn't work
+				return array;
+			},
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
@@ -97,22 +133,21 @@
 </script>
 
 <style scoped>
-	p {
-		display: none;
-		margin: 1%;
-	}
+
 	#game {
+		display: flex;
+		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
+		justify-content: space-between;
 		background-color: orange;
 		padding-right: 1%;
 		height: 100%;
 	}
 
-	#game div {
+	#gameScreen div {
 		pointer-events: none;
 		user-select: none;
 	}
-
-	button {
+	button, p, input {
 		margin: 1%;
 	}
 </style>

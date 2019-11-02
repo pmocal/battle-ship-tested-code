@@ -24,7 +24,7 @@
 
 <script>
 	export default {
-		name: 'BattleshipGamePlayer',
+		name: 'BattleshipGameBoard',
 		props: {
 			name: String,
 			ships: Object,
