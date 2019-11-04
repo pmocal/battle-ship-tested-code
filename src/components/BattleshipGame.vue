@@ -5,27 +5,26 @@
 	>
 		<div>
 			<div
-				v-for="shipLength in this.shipLengths"
-				:key="shipLength.uuid"
+				v-for="(shipLength, index) in shipLengths"
+				:key="index"
 			>
-				ship length: {{ shipLength }} <input placeholder="ship location">
+				ship length: {{ shipLength }} <input placeholder="ship location" v-model="humanShipLocations[index]">
 			</div>
-			<button @click="addLocations">Add locations</button>
-			<p>{{ locations }}</p>
+			<button @click="addShips">Add locations</button>
 		</div>
 		<div id="gameScreen">
 			<p> {{ this.$store.state.message }} </p>
 			<BattleshipGameBoard
 				ref="human"
 				name="Human"
-				:ships="ships"
-				:dimensions="dimensions"
+				:humanShips="humanShips"
+				:DIMENSIONS="DIMENSIONS"
 			/>
 			<BattleshipGameBoard
 				id="computer"
 				name="Computer"
-				:ships="ships"
-				:dimensions="dimensions"
+				:computerShips="computerShips"
+				:DIMENSIONS="DIMENSIONS"
 			/>
 		</div>
 	</div>
@@ -43,53 +42,54 @@
 			show: Boolean
 		},
 		created() {
-			for (let i = 0; i < this.numShips; i++) {
-				this.shipLengths.push(Math.round(Math.random() * (this.dimensions[1] - 1)));
+			for (let i = 0; i < this.NUMSHIPS; i++) {
+				this.shipLengths.push(Math.round(Math.random() * (this.DIMENSIONS[1] - 1)));
 			}
 		},
 		data() {
 			return {
-				dimensions: [10, 10],
-				numShips: 5,
-				locations: [],
+				DIMENSIONS: [10, 10],
+				NUMSHIPS: 5,
 				shipLengths: [],
-				shipLocations: [],
-				ships: {
-					"Human": [],
-					"Computer": []
-				}
+				humanShipLocations: [],
+				humanShips: [],
+				computerShips: []
 			}
 		},
 		methods: {
-			addLocations(){
-				this.locations.push(this.shipLocations);
-			},
-			initializeShips() {
-				const shipFactory = (name, length) => {
+			addShips(){
+				//validate user chosen ship locations
+				//pick and validate computer ship locations
+				const shipFactory = (length, location) => {
 					var hitsRemaining = length;
-					location = null;
 					function getHitsRemaining() {
 						return hitsRemaining;
 					}
 					function getLength() {
 						return length;
 					}
-					function getLocation() {
-						return location;
-					}
 					function setLocation(loc) {
 						location = loc;
 					}
+					function getLocation() {
+						return location;
+					}
 					function hit() {
-						hitsRemaining -= 1;
+						if (hitsRemaining > 0) {
+							hitsRemaining -= 1;
+						}
+					}
+					function isSunk() {
+						return (hitsRemaining == 0);
 					}
 					return { getLength, getLocation, setLocation, getHitsRemaining, hit };
 				};
-				for (let i = 0; i < this.numShips; i++) {
-					this.ships["Computer"].push(shipFactory())
+				var locations = []
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					this.ships["Computer"].push(shipFactory(shipLengths[i], locations[i]))
 				}
 			},
-			validateLocation(array) {
+			validateShipLocations(ships) {
 				//for loop
 					//if x values are diff, move on
 					// else if x values are same, check y values
@@ -107,7 +107,6 @@
 				})
 			},
 			async start() {
-				this.initializeShips();
 				document.getElementById("startButton").style.display = "none";
 				while ((this.humanShipsSunk() == false) && (this.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");

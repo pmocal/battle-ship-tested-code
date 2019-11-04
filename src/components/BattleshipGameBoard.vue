@@ -7,11 +7,9 @@
 		>
 			<div
 				v-for="(row, index1) in rows"
-				v-bind:key="row.uuid"
 			>
 				<div
 					v-for="(squareItem, index2) in row"
-					v-bind:key="squareItem.uuid"
 					v-on:click="uponAttack(index1, index2)"
 					v-bind:class="[{ selected: rowsBooleans[index1][index2] }, getSquareClass(squareItem)]"
 				>
@@ -28,7 +26,7 @@
 		props: {
 			name: String,
 			ships: Object,
-			dimensions: Array
+			DIMENSIONS: Array
 		},
 		data() {
 			return {
@@ -39,11 +37,11 @@
 			}
 		},
 		created() {
-			this.rows = new Array(this.dimensions[0]).fill(this.EMPTY_SPACE);
-			this.rowsBooleans = new Array(this.dimensions[0]).fill(false);
+			this.rows = new Array(this.DIMENSIONS[0]).fill(this.EMPTY_SPACE);
+			this.rowsBooleans = new Array(this.DIMENSIONS[0]).fill(false);
 			for (let i = 0; i < this.rows.length; i++) {
-				this.$set(this.rows, i, new Array(this.dimensions[1]).fill(this.EMPTY_SPACE));
-				this.$set(this.rowsBooleans, i, new Array(this.dimensions[1]).fill(false));
+				this.$set(this.rows, i, new Array(this.DIMENSIONS[1]).fill(this.EMPTY_SPACE));
+				this.$set(this.rowsBooleans, i, new Array(this.DIMENSIONS[1]).fill(false));
 			}
 		},
 		methods: {
@@ -80,8 +78,8 @@
 				}
 			},
 			computerAttack() {
-				var spaceX = Math.round(Math.random() * (this.dimensions[0]-1));
-				var spaceY = Math.round(Math.random() * (this.dimensions[1]-1));
+				var spaceX = Math.round(Math.random() * (this.DIMENSIONS[0]-1));
+				var spaceY = Math.round(Math.random() * (this.DIMENSIONS[1]-1));
 				var a = [spaceX, spaceY];
 				for (let index = 0; index < this.spacesAttackedByComputer.length; index++) {
 					let b = this.spacesAttackedByComputer[index];
