@@ -68,9 +68,6 @@
 					function getLength() {
 						return length;
 					}
-					function setLocation(loc) {
-						location = loc;
-					}
 					function getLocation() {
 						return location;
 					}
@@ -80,23 +77,69 @@
 						}
 					}
 					function isSunk() {
-						return (hitsRemaining == 0);
+						return (hitsRemaining === 0);
 					}
-					return { getLength, getLocation, setLocation, getHitsRemaining, hit };
-				};
-				var locations = []
-				for (let i = 0; i < this.NUMSHIPS; i++) {
-					this.ships["Computer"].push(shipFactory(shipLengths[i], locations[i]))
+					return { getLength, getLocation, getHitsRemaining, hit };
+				}
+				if (this.validateShipLocations(this.humanShipLocations)) {
+					var computerShipLocations;
+					do {
+						computerShipLocations = this.generateComputerLocations();
+					} while (this.validateShipLocations(computerShipLocations) == false);
+					for (let i = 0; i < this.NUMSHIPS; i++) {
+						this.humanShips.push(shipFactory(this.shipLengths[i], this.humanShipLocations[i]));
+						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]))
+					}
 				}
 			},
-			validateShipLocations(ships) {
-				//for loop
-					//if x values are diff, move on
-					// else if x values are same, check y values
-						// if y1 + length < y2 move on
-						// if y1 + length > y2 and y2 + length < y1 move on
-						// else new ship doesn't work
-				return array;
+			generateComputerLocations() {
+				var temp = [];
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					temp.push(Math.round(Math.random() * (this.DIMENSIONS[1]-1)),
+						Math.round(Math.random() * (this.DIMENSIONS[1]-this.shipLengths[i])-1));
+				}
+			},
+			validateShipLocations(shipLocations) {
+				if (shipLocations.length != this.NUMSHIPS) {
+					this.$store.commit('changeMessage', "Fill out all of the ship locations!");
+					return false;
+				}
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					if ((Object.prototype.toString.call(JSON.parse(shipLocations[i])) != '[object Array]') || (shipLocations[i].length != 2)) {
+						this.$store.commit('changeMessage', "All ship locations must be coordinates.");
+						return false;
+					}
+				}
+				//all coords must fall on the board
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					if (((shipLocations[i][0] > this.DIMENSIONS[0]) || (shipLocations[i][1] > this.DIMENSIONS[1])) || ((shipLocations[i][0] < 0) || (shipLocations[i][1] < 0))) {
+						this.$store.commit('changeMessage', "All ship locations must be coordinates within the board.");
+						return false;
+					}
+				}
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					for (let j = i; j < this.NUMSHIPS; j++) {
+						if (shipLocations[i][0] === shipLocations[j][0]) {
+							if (shipLocations[i][1] === shipLocations[j][1]) {
+								this.$store.commit('changeMessage', "All ship locations must be different.");
+								return false;
+							}
+							if (shipLocations[i][1] > shipLocations[j][1]) {
+								if (shipLocations[i][1] + this.shipLengths[i] > shipLocations[j][1]) {
+									this.$store.commit('changeMessage', "Ships must not overlap.");
+									return false;
+								}
+							}
+							if (shipLocations[i][1] > shipLocations[j][1]) {
+								if (shipLocations[i][1] + this.shipLengths[i] > shipLocations[j][1]) {
+									this.$store.commit('changeMessage', "Ships must not overlap.");
+									return false;
+								}
+							}
+						}
+					}
+				}
+				return true;
 			},
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));

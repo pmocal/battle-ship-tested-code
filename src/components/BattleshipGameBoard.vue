@@ -25,8 +25,9 @@
 		name: 'BattleshipGameBoard',
 		props: {
 			name: String,
-			ships: Object,
-			DIMENSIONS: Array
+			humanShips: Array,
+			DIMENSIONS: Array,
+			computerShips: Array
 		},
 		data() {
 			return {
