@@ -50,6 +50,7 @@
 			return {
 				DIMENSIONS: [10, 10],
 				NUMSHIPS: 5,
+				NUMTRIES: 500, //number of times to attempt selecting valid computer ship locations
 				shipLengths: [],
 				humanShipLocations: [],
 				humanShips: [],
@@ -92,7 +93,10 @@
 						computerShipLocations = this.generateComputerLocations();
 						counter += 1;
 						console.log(counter);
-					} while ((this.validateShipLocations(computerShipLocations) === false));
+					} while ((this.validateShipLocations(computerShipLocations) === false) && (counter < this.NUMTRIES));
+					if (counter == this.NUMTRIES) {
+						this.$store.commit('changeMessage', "Game crashed, sorry--contact administrator.");
+					}
 					for (let i = 0; i < this.NUMSHIPS; i++) {
 						this.humanShips.push(shipFactory(this.shipLengths[i], humanShipLocations[i]));
 						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]));
