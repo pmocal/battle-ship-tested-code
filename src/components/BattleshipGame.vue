@@ -91,13 +91,12 @@
 					do {
 						computerShipLocations = this.generateComputerLocations();
 						counter += 1;
-					} while ((this.validateShipLocations(computerShipLocations) === false) && (counter < 50));
+						console.log(counter);
+					} while ((this.validateShipLocations(computerShipLocations) === false));
 					for (let i = 0; i < this.NUMSHIPS; i++) {
 						this.humanShips.push(shipFactory(this.shipLengths[i], humanShipLocations[i]));
-						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]))
+						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]));
 					}
-					console.log(JSON.stringify(this.humanShips));
-					console.log(JSON.stringify(this.computerShips));
 				}
 			},
 			generateComputerLocations() {
