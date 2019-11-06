@@ -66,13 +66,14 @@
 
 	h1 {
 		margin-right: 1%;
-		font-family: Impact;
+		font-family: Arial;
+		font-weight: bold;
 		font-size: 200%;
 	}
 
 	button {
 		margin-left: 1%;
-		font-family: Impact;
+		font-family: Arial;
 		font-size: 110%
 	}
 

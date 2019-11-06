@@ -6,27 +6,28 @@
 		<div id="gameSetup">
 			<h1>Ship Placement Phase</h1>
 			<div id="instructions">
-				<p class="instructions">Place your ships, human! You get {{ NUMSHIPS }}.</p>
-				<p class="instructions">Enter coordinates for each ship. The length of each ship is listed so keep that in mind when choosing your coordinates for that ship.</p>
-				<p class="instructions">If any of your ships don't fit you'll have to redo your choice. And I'll make you swab the deck. So choose carefully. </p>
-				<p class="instructions">The coordinates should be in the format <code>[x, y]</code> where <code>x</code> and <code>y</code> both are both integers ranging from <code>[0, 9]</code>.</p>
+				<p class="instructions"><span>Place your ships, human!</span> You get {{ NUMSHIPS }}.</p>
+				<p class="instructions">Enter coordinates for each ship. The length of each ship is listed. Ships are placed vertically so the coordinates are where the top of the ship lies.</p>
+				<p class="instructions">Choose carefully so that your ships fit. If any of them extend off the grid I'll make you swab the decks (and redo your choice of coordinates).</p>
+				<p class="instructions">Each set of coordinates should be in the format <code>[x, y]</code> where <code>x</code> and <code>y</code> both are both integers ranging from <code>[0, 9]</code>.</p>
+				<p class="instructions">Click the button when you are done.</p>
 			</div>
-			<div>
+			<div id="ships">
 				<p
 					v-for="(shipLength, index) in shipLengths"
 					:key="index"
 				>
-					Ship #{{ index + 1 }} has length <code>{{ shipLength }}</code> -- where would you like to place it?
+					Length of ship: <span><code>{{ shipLength }}</code></span>
 					<input placeholder="ship location"
 						   v-model="humanShipLocations[index]">
-					<span>Note: Ship coordinates range from <code>[0,0]</code> to <code>[9,9]</code>.</span>
 				</p>
 			</div>
-			<button @click="addShips"> Add locations </button>
+			<button @click="addShips"> Add ships to board</button>
+			<p class="messageBoard"> {{ this.$store.state.message }} </p>
 		</div>
-		<div id="gameScreen">
+		<div id="gameScreen">	
 			<h1>Game Board</h1>
-			<p> {{ this.$store.state.message }} </p>
+			<p class="messageBoard"> {{ this.$store.state.message }} </p>
 			<BattleshipGameBoard
 				ref="human"
 				name="Human"
@@ -146,6 +147,8 @@
 				}
 				for (let i = 0; i < this.NUMSHIPS - 1; i++) {
 					for (let j = i + 1; j < this.NUMSHIPS; j++) {
+						console.log(shipLocations[i][0]);
+						console.log(shipLocations[j][0]);
 						if (shipLocations[i][0] === shipLocations[j][0]) {
 							if (shipLocations[i][1] === shipLocations[j][1]) {
 								this.$store.commit('changeMessage', "All ship locations must be different.");
@@ -203,12 +206,33 @@
 
 <style scoped>
 
+	h1 {
+		margin: 1%;
+		font-size: 150%;
+	}
+
+	p, input {
+		margin-left: 1%;
+	}
+
+	button {
+		margin: 1%;
+		font-size: 110%;
+	}
+
+	code {
+		font-family: Courier;
+	}
+
+	span {
+		color: darkred;
+	}
+
 	#game {
 		display: flex;
 		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
 		background-color: orange;
 		padding-right: 0.3%;
-		height: 100%;
 		font-family: Arial;
 	}
 
@@ -225,29 +249,26 @@
 		margin-bottom: 1%;
 	}
 
-	button {
-		margin: 1%;
-		font-size: 110%;
+	#gameSetup {
+		margin-bottom: 2%;
+		border-bottom: solid;
 	}
 
-	h1 {
-		margin: 1%;
-		font-size: 150%;
-	}
-
-	
-
-	p, span {
-		margin-left: 1%;
-	}
-
-	code {
-		font-family: Courier;
+	#ships {
+		margin-bottom: 2%;
 	}
 
 	#gameScreen div {
 		pointer-events: none;
 		user-select: none;
+	}
+
+	.messageBoard {
+		margin: 1%;
+	}
+
+	#gameScreen .messageBoard {
+		display: none;
 	}
 
 </style>
