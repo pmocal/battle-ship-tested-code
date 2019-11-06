@@ -25,9 +25,8 @@
 		name: 'BattleshipGameBoard',
 		props: {
 			name: String,
-			humanShips: Array,
+			ships: Array,
 			DIMENSIONS: Array,
-			computerShips: Array
 		},
 		data() {
 			return {
@@ -47,10 +46,10 @@
 		},
 		methods: {
 			placeShips() {
-				for (let shipsIndex = 0; shipsIndex < this.$store.state.ships[this.name].length; shipsIndex++) {
-					var location = this.$store.state.ships[this.name][shipsIndex].getLocation();
-					for (let shipIndex = 0; shipIndex < this.$store.state.ships[this.name][shipsIndex].getLength(); shipIndex++) {
-						this.rows[location[0]].splice(location[1]+shipIndex, 1, shipsIndex);
+				for (let i = 0; i < this.ships.length; i++) {
+					var location = this.ships[i].getLocation();
+					for (let j = 0; j < this.ships[i].getLength(); j++) {
+						this.rows[location[0]].splice(location[1]+j, 1, i);
 					}
 				}
 			},

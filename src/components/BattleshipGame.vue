@@ -3,7 +3,7 @@
 		id="game"
 		v-if="this.show"
 	>
-		<div id="gameSetup">
+		<div id="gameSetup" v-if="this.showSetup">
 			<h1>Ship Placement Phase</h1>
 			<div id="instructions">
 				<p class="instructions"><span>Place your ships, human!</span> You get {{ NUMSHIPS }}.</p>
@@ -31,13 +31,13 @@
 			<BattleshipGameBoard
 				ref="human"
 				name="Human"
-				:humanShips="humanShips"
+				:ships="humanShips"
 				:DIMENSIONS="DIMENSIONS"
 			/>
 			<BattleshipGameBoard
-				id="computer"
+				ref="computer"
 				name="Computer"
-				:computerShips="computerShips"
+				:ships="computerShips"
 				:DIMENSIONS="DIMENSIONS"
 			/>
 		</div>
@@ -68,7 +68,8 @@
 				shipLengths: [],
 				humanShipLocations: [],
 				humanShips: [],
-				computerShips: []
+				computerShips: [],
+				showSetup: true
 			}
 		},
 		methods: {
@@ -106,16 +107,20 @@
 					do {
 						computerShipLocations = this.generateComputerLocations();
 						counter += 1;
-						console.log(counter);
 					} while ((this.validateShipLocations(computerShipLocations) === false) && (counter < this.NUMTRIES));
-					if (counter == this.NUMTRIES) {
-						this.$store.commit('changeMessage', "Game crashed, sorry--contact administrator.");
-					}
 					for (let i = 0; i < this.NUMSHIPS; i++) {
 						this.humanShips.push(shipFactory(this.shipLengths[i], humanShipLocations[i]));
 						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]));
 					}
+					if (counter == this.NUMTRIES) {
+						this.$store.commit('changeMessage', "Game crashed, sorry--contact administrator.");
+					} else {
+						this.showSetup = false;
+						this.$refs.human.placeShips();
+						this.$refs.computer.placeShips();
+					}
 				}
+
 			},
 			generateComputerLocations() {
 				var temp = [];
@@ -147,8 +152,6 @@
 				}
 				for (let i = 0; i < this.NUMSHIPS - 1; i++) {
 					for (let j = i + 1; j < this.NUMSHIPS; j++) {
-						console.log(shipLocations[i][0]);
-						console.log(shipLocations[j][0]);
 						if (shipLocations[i][0] === shipLocations[j][0]) {
 							if (shipLocations[i][1] === shipLocations[j][1]) {
 								this.$store.commit('changeMessage', "All ship locations must be different.");
@@ -250,7 +253,6 @@
 	}
 
 	#gameSetup {
-		margin-bottom: 2%;
 		border-bottom: solid;
 	}
 
