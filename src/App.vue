@@ -4,7 +4,7 @@
 			id="title"
 			v-if="!this.show"
 		>
-			<h1>Welcome to the Battleship game</h1>
+			<h1>Welcome to the Battleship game.</h1>
 			<button
 				ref="startButton"
 				@click="start"
@@ -64,7 +64,20 @@
 		width: 100%;
 	}
 
+	h1 {
+		margin-right: 1%;
+		font-family: Impact;
+		font-size: 200%;
+	}
+
+	button {
+		margin-left: 1%;
+		font-family: Impact;
+		font-size: 110%
+	}
+
 	#app {
 		height: 100%;
+		background-color: darkorange;
 	}
 </style>

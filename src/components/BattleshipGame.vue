@@ -3,16 +3,29 @@
 		id="game"
 		v-if="this.show"
 	>
-		<div>
-			<div
-				v-for="(shipLength, index) in shipLengths"
-				:key="index"
-			>
-				ship length: {{ shipLength }} <input placeholder="ship location" v-model="humanShipLocations[index]">
+		<div id="gameSetup">
+			<h1>Ship Placement Phase</h1>
+			<div id="instructions">
+				<p class="instructions">Place your ships, human! You get {{ NUMSHIPS }}.</p>
+				<p class="instructions">Enter coordinates for each ship. The length of each ship is listed so keep that in mind when choosing your coordinates for that ship.</p>
+				<p class="instructions">If any of your ships don't fit you'll have to redo your choice. And I'll make you swab the deck. So choose carefully. </p>
+				<p class="instructions">The coordinates should be in the format <code>[x, y]</code> where <code>x</code> and <code>y</code> both are both integers ranging from <code>[0, 9]</code>.</p>
 			</div>
-			<button @click="addShips">Add locations</button>
+			<div>
+				<p
+					v-for="(shipLength, index) in shipLengths"
+					:key="index"
+				>
+					Ship #{{ index + 1 }} has length <code>{{ shipLength }}</code> -- where would you like to place it?
+					<input placeholder="ship location"
+						   v-model="humanShipLocations[index]">
+					<span>Note: Ship coordinates range from <code>[0,0]</code> to <code>[9,9]</code>.</span>
+				</p>
+			</div>
+			<button @click="addShips"> Add locations </button>
 		</div>
 		<div id="gameScreen">
+			<h1>Game Board</h1>
 			<p> {{ this.$store.state.message }} </p>
 			<BattleshipGameBoard
 				ref="human"
@@ -193,17 +206,48 @@
 	#game {
 		display: flex;
 		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
-		justify-content: space-between;
 		background-color: orange;
-		padding-right: 1%;
+		padding-right: 0.3%;
 		height: 100%;
+		font-family: Arial;
+	}
+
+	#gameSetup h1 {
+		margin-bottom: 2%;
+	}
+
+	#instructions {
+		margin-bottom: 2%;
+	}
+
+	#instructions p {
+		font-size: 110%;
+		margin-bottom: 1%;
+	}
+
+	button {
+		margin: 1%;
+		font-size: 110%;
+	}
+
+	h1 {
+		margin: 1%;
+		font-size: 150%;
+	}
+
+	
+
+	p, span {
+		margin-left: 1%;
+	}
+
+	code {
+		font-family: Courier;
 	}
 
 	#gameScreen div {
 		pointer-events: none;
 		user-select: none;
 	}
-	button, p, input {
-		margin: 1%;
-	}
+
 </style>
