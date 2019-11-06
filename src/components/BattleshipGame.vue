@@ -43,7 +43,7 @@
 		},
 		created() {
 			for (let i = 0; i < this.NUMSHIPS; i++) {
-				this.shipLengths.push(Math.round(Math.random() * (this.DIMENSIONS[1] - 1)));
+				this.shipLengths.push(Math.ceil(Math.random() * (this.DIMENSIONS[1] - 1))); //[1, 10]
 			}
 		},
 		data() {
@@ -81,23 +81,32 @@
 					}
 					return { getLength, getLocation, getHitsRemaining, hit };
 				}
-				if (this.validateShipLocations(this.humanShipLocations)) {
+				var humanShipLocations = []
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					humanShipLocations.push(JSON.parse(this.humanShipLocations[i]));
+				}
+				var counter = 0;
+				if (this.validateShipLocations(humanShipLocations)) {
 					var computerShipLocations;
 					do {
 						computerShipLocations = this.generateComputerLocations();
-					} while (this.validateShipLocations(computerShipLocations) == false);
+						counter += 1;
+					} while ((this.validateShipLocations(computerShipLocations) === false) && (counter < 50));
 					for (let i = 0; i < this.NUMSHIPS; i++) {
-						this.humanShips.push(shipFactory(this.shipLengths[i], this.humanShipLocations[i]));
+						this.humanShips.push(shipFactory(this.shipLengths[i], humanShipLocations[i]));
 						this.computerShips.push(shipFactory(this.shipLengths[i], computerShipLocations[i]))
 					}
+					console.log(JSON.stringify(this.humanShips));
+					console.log(JSON.stringify(this.computerShips));
 				}
 			},
 			generateComputerLocations() {
 				var temp = [];
 				for (let i = 0; i < this.NUMSHIPS; i++) {
-					temp.push(Math.round(Math.random() * (this.DIMENSIONS[1]-1)),
-						Math.round(Math.random() * (this.DIMENSIONS[1]-this.shipLengths[i])-1));
+					temp.push([Math.round(Math.random() * (this.DIMENSIONS[1] - 1)), //[0, 9]
+						Math.round(Math.random() * (this.DIMENSIONS[1] - this.shipLengths[i]))]); //shipLength always [1, 10] so [0,9]
 				}
+				return temp;
 			},
 			validateShipLocations(shipLocations) {
 				if (shipLocations.length != this.NUMSHIPS) {
@@ -105,20 +114,22 @@
 					return false;
 				}
 				for (let i = 0; i < this.NUMSHIPS; i++) {
-					if ((Object.prototype.toString.call(JSON.parse(shipLocations[i])) != '[object Array]') || (shipLocations[i].length != 2)) {
+					if ((Object.prototype.toString.call(shipLocations[i]) != '[object Array]') || 
+						(shipLocations[i].length != 2)) {
 						this.$store.commit('changeMessage', "All ship locations must be coordinates.");
 						return false;
 					}
 				}
 				//all coords must fall on the board
 				for (let i = 0; i < this.NUMSHIPS; i++) {
-					if (((shipLocations[i][0] > this.DIMENSIONS[0]) || (shipLocations[i][1] > this.DIMENSIONS[1])) || ((shipLocations[i][0] < 0) || (shipLocations[i][1] < 0))) {
+					if (((shipLocations[i][0] > this.DIMENSIONS[0]) || (shipLocations[i][1] > this.DIMENSIONS[1])) || 
+						((shipLocations[i][0] < 0) || (shipLocations[i][1] < 0))) {
 						this.$store.commit('changeMessage', "All ship locations must be coordinates within the board.");
 						return false;
 					}
 				}
-				for (let i = 0; i < this.NUMSHIPS; i++) {
-					for (let j = i; j < this.NUMSHIPS; j++) {
+				for (let i = 0; i < this.NUMSHIPS - 1; i++) {
+					for (let j = i + 1; j < this.NUMSHIPS; j++) {
 						if (shipLocations[i][0] === shipLocations[j][0]) {
 							if (shipLocations[i][1] === shipLocations[j][1]) {
 								this.$store.commit('changeMessage', "All ship locations must be different.");
