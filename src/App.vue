@@ -2,7 +2,7 @@
 	<div id="app">
 		<div
 			id="title"
-			v-if="!this.show"
+			v-if="!show"
 		>
 			<h1>Welcome to the Battleship game.</h1>
 			<button
@@ -12,12 +12,16 @@
 				Start game!
 			</button>
 		</div>
-		<BattleshipGame :show="show"/>
+		<div id="game">
+			<BattleshipSetup :show="show"/>
+			<BattleshipGame :show="show"/>
+		</div>
 	</div>
 </template>
 
 <script>
 	import BattleshipGame from './components/BattleshipGame.vue'
+	import BattleshipSetup from './components/BattleshipSetup.vue'
 	import Vue from 'vue'
 	import Vuex from 'vuex'
 
@@ -25,11 +29,34 @@
 
 	const store = new Vuex.Store({
 		state: {
+			humanShips: [],
+			computerShips: [],
 			message: ""
 		},
 		mutations: {
 			changeMessage(state, newMessage) {
 				state.message = newMessage;
+			},
+			setHumanShips(state, ships) {
+				state.humanShips = ships;
+			},
+			setComputerShips(state, ships) {
+				state.computerShips = ships;
+			},
+			hitShip(state, payload) {
+				if (payload.key === "Human") {
+					state.humanShips[payload.index].hit();
+				} else if (payload.key === "Computer") {
+					state.computerShips[payload.index].hit();
+				}
+			}
+		},
+		getters: {
+			humanShipsSunk: (state) => () => {
+				return (state.humanShips.filter(ship => (!ship.isSunk())).length == 0);
+			},
+			computerShipsSunk: (state) => () => {
+				return (state.computerShips.filter(ship => (!ship.isSunk())).length == 0);
 			}
 		}
 	})
@@ -38,11 +65,13 @@
 		name: 'app',
 		store,
 		components: {
-			BattleshipGame
+			BattleshipGame,
+			BattleshipSetup
 		},
 		data() {
 			return {
-				show: false
+				show: false,
+
 			}
 		},
 		methods: {
@@ -80,5 +109,13 @@
 	#app {
 		height: 100%;
 		background-color: darkorange;
+	}
+
+	#game {
+		display: flex;
+		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
+		background-color: orange;
+		padding-right: 0.3%;
+		font-family: Arial;
 	}
 </style>

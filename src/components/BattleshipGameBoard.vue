@@ -7,11 +7,13 @@
 		>
 			<div
 				v-for="(row, index1) in rows"
+				:key="row.uuid"
 			>
 				<div
 					v-for="(squareItem, index2) in row"
 					v-on:click="uponAttack(index1, index2)"
 					v-bind:class="[{ selected: rowsBooleans[index1][index2] }, getSquareClass(squareItem)]"
+					:key="squareItem.uuid"
 				>
 					{{ squareItem }}
 				</div>
