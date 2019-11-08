@@ -111,7 +111,13 @@
 			},
 			humanAttackEnd() {
 				this.$refs.Computer.style.pointerEvents = "none";
-			}
+			},
+			humanTurnFinished() {
+				var self = this;
+				return new Promise(function(resolve) {
+					self.$refs.Computer.onclick = resolve;
+				})
+			},
 		}
 	}
 </script>

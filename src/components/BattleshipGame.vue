@@ -52,11 +52,6 @@
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
-			humanTurnFinished(self) {
-				return new Promise(function(resolve) {
-					self.$refs.computer.onclick = resolve;
-				})
-			},
 			//method to place ships and reveal start button,
 			async start() {
 				this.$refs.gameStart.style.display = "none";
@@ -67,7 +62,7 @@
 					this.$refs.human.computerAttack();
 					this.$store.commit('changeMessage', "Human's turn!");
 					this.$refs.computer.humanAttackBegin();
-					await this.humanTurnFinished(this);
+					await this.$refs.computer.humanTurnFinished();
 					this.$refs.computer.humanAttackEnd();
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
