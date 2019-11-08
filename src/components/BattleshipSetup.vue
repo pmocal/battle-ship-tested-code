@@ -1,5 +1,8 @@
 <template>
-	<div id="gameSetup" v-if="showSetup && show">
+	<div
+		id="gameSetup"
+		v-if="showBattleshipSetup && showBattleship"
+	>
 		
 		<h1>Ship Placement Phase</h1>
 		
@@ -22,9 +25,13 @@
 				v-for="(shipLength, index) in shipLengths"
 				:key="index"
 			>
+				
 				Length of ship: <span><code>{{ shipLength }}</code></span>
-				<input placeholder="ship location"
-					   v-model="humanShipLocations[index]">
+				
+				<input
+					placeholder="ship location"
+					v-model="humanShipLocations[index]"
+				>
 			</p>
 		</div>
 		
@@ -40,7 +47,8 @@
 	export default {
 		name: 'BattleshipSetup',
 		props: {
-			show: Boolean,
+			showBattleship: Boolean,
+			DIMENSIONS: Array
 		},
 		created() {
 			for (let i = 0; i < this.NUMSHIPS; i++) {
@@ -49,15 +57,13 @@
 		},
 		data() {
 			return {
-				DIMENSIONS: [10, 10],
 				NUMSHIPS: 5,
 				NUMTRIES: 500, //number of times to attempt selecting valid computer ship locations
 				shipLengths: [],
 				humanShipLocations: [],
 				humanShips: [],
 				computerShips: [],
-				showSetup: true,
-				showStart: false
+				showBattleshipSetup: true
 			}
 		},
 		methods: {
@@ -82,12 +88,11 @@
 					if (counter == this.NUMTRIES) {
 						this.$store.commit('changeMessage', "Game crashed, sorry--contact administrator.");
 					} else {
-						this.showSetup = false;
-						this.showStart = true;
+						this.showBattleshipSetup = false;
 						this.$store.commit('setHumanShips', this.humanShips);
 						this.$store.commit('setComputerShips', this.computerShips);
-						this.$refs.human.placeShips();
-						this.$refs.computer.placeShips();
+						//call method in sibling component to place ships and reveal start button
+						this.$emit('signalFlare');
 					}
 				}
 

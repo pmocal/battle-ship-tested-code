@@ -16,6 +16,7 @@
 					:key="squareItem.uuid"
 				>
 					{{ squareItem }}
+
 				</div>
 			</div>
 		</div>
@@ -33,9 +34,14 @@
 		data() {
 			return {
 				spacesAttackedByComputer: [],
-				EMPTY_SPACE: 'O',
+				EMPTY_SPACE: '-',
 				rows: [],
 				rowsBooleans: []
+			}
+		},
+		watch: {
+			shipSignalTwo: function () {
+				this.placeShips();
 			}
 		},
 		created() {

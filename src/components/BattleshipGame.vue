@@ -1,24 +1,36 @@
 <template>
 	<div
-		v-if="show"
+		v-if="showBattleship"
 	>
 		<div id="gameScreen">	
+			
 			<h1>Game Board</h1>
+			
 			<p class="messageBoard"> {{ this.$store.state.message }} </p>
+			
 			<BattleshipGameBoard
 				ref="human"
 				name="Human"
 				:ships="this.$store.state.humanShips"
 				:DIMENSIONS="DIMENSIONS"
+				:ship-signal="shipSignal"
 			/>
+			
 			<BattleshipGameBoard
 				ref="computer"
 				name="Computer"
 				:ships="this.$store.state.computerShips"
 				:DIMENSIONS="DIMENSIONS"
+				:ship-signal-two="shipSignalTwo"
 			/>
 		</div>
-		<button @click="start" v-if="showStart">Start game</button>
+		
+		<button
+			@click="start"
+			v-if="showBattleshipGameStart"
+		>
+			Start game
+		</button>
 	</div>
 </template>
 
@@ -31,12 +43,14 @@
 			BattleshipGameBoard
 		},
 		props: {
-			show: Boolean
+			showBattleship: Boolean,
+			DIMENSIONS: Array,
+			shipSignal: Boolean
 		},
 		data() {
 			return {
-				DIMENSIONS: [10, 10],
-				showStart: false
+				showBattleshipGameStart: false,
+				shipSignalTwo: this.shipSignal
 			}
 		},
 		methods: {
@@ -48,8 +62,9 @@
 					this.$refs.computer.onclick = resolve;
 				})
 			},
+			//method to place ships and reveal start button,
 			async start() {
-				this.showStart = false;
+				this.showBattleshipGameStart = false;
 				while ((this.$store.getters.humanShipsSunk() == false) && (this.$store.getters.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");
 					document.getElementById("messageBoard").style.display = "block";

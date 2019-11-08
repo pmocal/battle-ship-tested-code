@@ -1,8 +1,9 @@
 <template>
 	<div id="app">
+
 		<div
 			id="title"
-			v-if="!show"
+			v-if="!showBattleship"
 		>
 			<h1>Welcome to the Battleship game.</h1>
 			<button
@@ -12,9 +13,18 @@
 				Start game!
 			</button>
 		</div>
+
 		<div id="game">
-			<BattleshipSetup :show="show"/>
-			<BattleshipGame :show="show"/>
+			<BattleshipSetup
+				@signal-flare="passSignalToGame"
+				:show-battleship="showBattleship"
+				:DIMENSIONS="DIMENSIONS"
+			/>
+			<BattleshipGame
+				:show-battleship="showBattleship"
+				:DIMENSIONS="DIMENSIONS"
+				:ship-signal="shipSignal"
+			/>
 		</div>
 	</div>
 </template>
@@ -70,14 +80,18 @@
 		},
 		data() {
 			return {
-				show: false,
-
+				showBattleship: false,
+				DIMENSIONS: [10, 10],
+				shipSignal: false
 			}
 		},
 		methods: {
 			start() {
 				this.$refs.startButton.style.display = "none";
-				this.show = true;
+				this.showBattleship = true;
+			},
+			passSignalToGame() {
+				this.shipSignal = true;
 			}
 		}
 	}
