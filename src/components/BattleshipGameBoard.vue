@@ -30,6 +30,7 @@
 			name: String,
 			ships: Array,
 			DIMENSIONS: Array,
+			shipSignal: Boolean
 		},
 		data() {
 			return {
@@ -40,7 +41,7 @@
 			}
 		},
 		watch: {
-			shipSignalTwo: function () {
+			shipSignal: function () {
 				this.placeShips();
 			}
 		},

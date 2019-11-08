@@ -21,7 +21,7 @@
 				name="Computer"
 				:ships="this.$store.state.computerShips"
 				:DIMENSIONS="DIMENSIONS"
-				:ship-signal-two="shipSignalTwo"
+				:ship-signal="shipSignal"
 			/>
 		</div>
 		
@@ -49,8 +49,7 @@
 		},
 		data() {
 			return {
-				showBattleshipGameStart: false,
-				shipSignalTwo: this.shipSignal
+				showBattleshipGameStart: false
 			}
 		},
 		methods: {

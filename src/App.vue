@@ -16,7 +16,7 @@
 
 		<div id="game">
 			<BattleshipSetup
-				@signal-flare="passSignalToGame"
+				@signalFlare="passSignalToGame"
 				:show-battleship="showBattleship"
 				:DIMENSIONS="DIMENSIONS"
 			/>
