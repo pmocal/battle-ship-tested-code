@@ -4,6 +4,7 @@
 		<div
 			class="grid-container"
 			v-bind:class="name"
+			:ref="name"
 		>
 			<div
 				v-for="(row, index1) in rows"
@@ -104,6 +105,12 @@
 				}
 				this.spacesAttackedByComputer.push([spaceX, spaceY]);
 				this.uponAttack(spaceX, spaceY);
+			},
+			humanAttackBegin() {
+				this.$refs.Computer.style.pointerEvents = "auto";
+			},
+			humanAttackEnd() {
+				this.$refs.Computer.style.pointerEvents = "none";
 			}
 		}
 	}

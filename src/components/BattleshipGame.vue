@@ -16,14 +16,13 @@
 				:ship-signal="shipSignal"
 			/>
 			
-			<div ref="computer">
-				<BattleshipGameBoard
-					name="Computer"
-					:ships="this.$store.state.computerShips"
-					:DIMENSIONS="DIMENSIONS"
-					:ship-signal="shipSignal"
-				/>
-			</div>
+			<BattleshipGameBoard
+				name="Computer"
+				ref="computer"
+				:ships="this.$store.state.computerShips"
+				:DIMENSIONS="DIMENSIONS"
+				:ship-signal="shipSignal"
+			/>
 		</div>
 		
 		<button
@@ -67,9 +66,9 @@
 					await this.sleep(1000);
 					this.$refs.human.computerAttack();
 					this.$store.commit('changeMessage', "Human's turn!");
-					this.$refs.computer.style.pointerEvents = "auto";
+					this.$refs.computer.humanAttackBegin();
 					await this.humanTurnFinished(this);
-					this.$refs.computer.style.pointerEvents = "none";
+					this.$refs.computer.humanAttackEnd();
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
