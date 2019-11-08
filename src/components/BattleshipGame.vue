@@ -6,7 +6,7 @@
 			
 			<h1>Game Board</h1>
 			
-			<p class="messageBoard"> {{ this.$store.state.message }} </p>
+			<p class="messageBoard" ref="messageBoard"> {{ this.$store.state.message }} </p>
 			
 			<BattleshipGameBoard
 				ref="human"
@@ -16,18 +16,20 @@
 				:ship-signal="shipSignal"
 			/>
 			
-			<BattleshipGameBoard
-				ref="computer"
-				name="Computer"
-				:ships="this.$store.state.computerShips"
-				:DIMENSIONS="DIMENSIONS"
-				:ship-signal="shipSignal"
-			/>
+			<div ref="computer">
+				<BattleshipGameBoard
+					name="Computer"
+					:ships="this.$store.state.computerShips"
+					:DIMENSIONS="DIMENSIONS"
+					:ship-signal="shipSignal"
+				/>
+			</div>
 		</div>
 		
 		<button
 			@click="start"
-			v-if="showBattleshipGameStart"
+			ref="gameStart"
+			v-if="shipSignal"
 		>
 			Start game
 		</button>
@@ -47,32 +49,27 @@
 			DIMENSIONS: Array,
 			shipSignal: Boolean
 		},
-		data() {
-			return {
-				showBattleshipGameStart: false
-			}
-		},
 		methods: {
 			sleep(ms) {
 				return new Promise(resolve => setTimeout(resolve, ms));
 			},
-			humanTurnFinished() {
+			humanTurnFinished(self) {
 				return new Promise(function(resolve) {
-					this.$refs.computer.onclick = resolve;
+					self.$refs.computer.onclick = resolve;
 				})
 			},
 			//method to place ships and reveal start button,
 			async start() {
-				this.showBattleshipGameStart = false;
+				this.$refs.gameStart.style.display = "none";
 				while ((this.$store.getters.humanShipsSunk() == false) && (this.$store.getters.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");
-					document.getElementById("messageBoard").style.display = "block";
+					this.$refs.messageBoard.style.display = "block";
 					await this.sleep(1000);
 					this.$refs.human.computerAttack();
 					this.$store.commit('changeMessage', "Human's turn!");
-					document.getElementById("computer").style.pointerEvents = "auto";
-					await this.humanTurnFinished();
-					document.getElementById("computer").style.pointerEvents = "none";
+					this.$refs.computer.style.pointerEvents = "auto";
+					await this.humanTurnFinished(this);
+					this.$refs.computer.style.pointerEvents = "none";
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
@@ -80,7 +77,6 @@
 					this.$store.commit('changeMessage', "COMPUTER WINS.");
 				} else if (this.$store.getters.computerShipsSunk() == true) {
 					this.$store.commit('changeMessage', "Human wins!");
-					document.body.style.backgroundColor = "blue";
 				}
 			}
 		}
