@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p>{{ name }}</p>
+		<p v-bind:class="name">{{ name }}</p>
 		<div
 			class="grid-container"
 			v-bind:class="name"
@@ -160,6 +160,7 @@
 	.ship {
 		background-color: green;
 	}
+	
 	.Computer div div{
 		background-color: black;
 	}
@@ -168,5 +169,14 @@
 	}
 	.Human div .selected{
 		background-color: red;
+	}
+	p.Human {
+		font-family: 'Warnes', cursive;
+		font-size: 170%;
+	}
+
+	p.Computer {
+		font-family: 'Notable', sans-serif;
+		font-size: 170%;
 	}
 </style>

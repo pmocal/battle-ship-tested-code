@@ -57,16 +57,19 @@
 				this.$refs.gameStart.style.display = "none";
 				while ((this.$store.getters.humanShipsSunk() == false) && (this.$store.getters.computerShipsSunk() == false)) {
 					this.$store.commit('changeMessage', "Computer's turn!");
+					this.$refs.messageBoard.style.color = "darkred";
 					this.$refs.messageBoard.style.display = "block";
 					await this.sleep(1000);
 					this.$refs.human.computerAttack();
-					this.$store.commit('changeMessage', "Human's turn!");
+					this.$store.commit('changeMessage', "Human's turn to attack! Click on a computer space.");
+					this.$refs.messageBoard.style.color = "darkgreen";
 					this.$refs.computer.humanAttackBegin();
 					await this.$refs.computer.humanTurnFinished();
 					this.$refs.computer.humanAttackEnd();
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
+
 				} else if (this.$store.getters.humanShipsSunk() == true) {
 					this.$store.commit('changeMessage', "COMPUTER WINS.");
 				} else if (this.$store.getters.computerShipsSunk() == true) {

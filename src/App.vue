@@ -129,6 +129,7 @@
 		display: flex;
 		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
 		background-color: orange;
+		height: 100%;
 		padding-right: 0.3%;
 		font-family: Arial;
 	}
