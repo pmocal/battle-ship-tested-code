@@ -38,7 +38,8 @@
 				spacesAttackedByComputer: [],
 				EMPTY_SPACE: '-',
 				rows: [],
-				rowsBooleans: []
+				rowsBooleans: [],
+				previousMoveHit: false
 			}
 		},
 		watch: {
@@ -65,12 +66,16 @@
 			},
 			uponAttack(x, y) {
 				this.rowsBooleans[x].splice(y, 1, true);
+
 				
 				function isShip(value) {
 					return (typeof(value) === "number");
 				}
 
 				if (isShip(this.rows[x][y])) {
+					if (this.name === "Human") {
+						this.previousMoveHit = true;
+					}
 					this.$store.commit({
 						type: 'hitShip',
 						key: this.name,
@@ -79,6 +84,9 @@
 					this.$store.commit('changeMessage', this.name + " got hit!");
 				}
 				else {
+					if (this.name === "Human") {
+						this.previousMoveHit = false;
+					}
 					this.$store.commit('changeMessage', "miss!");
 				}
 			},
@@ -88,23 +96,32 @@
 				}
 			},
 			computerAttack() {
-				var spaceX = Math.round(Math.random() * (this.DIMENSIONS[0]-1));
-				var spaceY = Math.round(Math.random() * (this.DIMENSIONS[1]-1));
-				var a = [spaceX, spaceY];
-				for (let index = 0; index < this.spacesAttackedByComputer.length; index++) {
-					let b = this.spacesAttackedByComputer[index];
-					let flag = true;
-					for (let i = 0; i < a.length; i++) {
-						if (a[i] != b[i]) {
-							flag = false;
+				var potentialX;
+				var potentialY;
+				var validMove;
+				do {
+					if (this.previousMoveHit) {
+						let offset = Math.round(Math.random());
+						if (offset === 0) {
+							offset = -1; //because we want to add or subtract 1, not add 1 or add 0
+						}
+						potentialX = this.spacesAttackedByComputer[this.spacesAttackedByComputer.length - 1][0]
+						potentialY = this.spacesAttackedByComputer[this.spacesAttackedByComputer.length - 1][1] + offset;
+					}
+					else {
+						potentialX = Math.round(Math.random() * (this.DIMENSIONS[0]-1));
+						potentialY = Math.round(Math.random() * (this.DIMENSIONS[1]-1));
+					}
+					validMove = true;
+					for (let i = 0; i < this.spacesAttackedByComputer.length; i++) {
+						let pastMove = this.spacesAttackedByComputer[i];
+						if ((potentialX === pastMove[0]) && (potentialY === pastMove[1])) {
+							validMove = false;
 						}
 					}
-					if (flag) {
-						return;
-					}
-				}
-				this.spacesAttackedByComputer.push([spaceX, spaceY]);
-				this.uponAttack(spaceX, spaceY);
+				} while (!validMove);
+				this.spacesAttackedByComputer.push([potentialX, potentialY]);
+				this.uponAttack(potentialX, potentialY);
 			},
 			humanAttackBegin() {
 				this.$refs.Computer.style.pointerEvents = "auto";
