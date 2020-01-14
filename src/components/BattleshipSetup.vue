@@ -133,12 +133,12 @@
 								return false;
 							}
 							if (shipLocations[i][1] > shipLocations[j][1]) {
-								if (shipLocations[i][1] + this.shipLengths[i] > shipLocations[j][1]) {
+								if (shipLocations[j][1] + this.shipLengths[j] > shipLocations[i][1]) {
 									this.$store.commit('changeMessage', "Ships must not overlap.");
 									return false;
 								}
 							}
-							if (shipLocations[i][1] > shipLocations[j][1]) {
+							if (shipLocations[j][1] > shipLocations[i][1]) {
 								if (shipLocations[i][1] + this.shipLengths[i] > shipLocations[j][1]) {
 									this.$store.commit('changeMessage', "Ships must not overlap.");
 									return false;

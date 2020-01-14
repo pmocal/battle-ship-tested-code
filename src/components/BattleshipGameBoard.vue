@@ -100,7 +100,7 @@
 				var potentialY;
 				var validMove;
 				do {
-					if (this.previousMoveHit) {
+					if (this.previousMoveHit && validMove) {
 						let offset = Math.round(Math.random());
 						if (offset === 0) {
 							offset = -1; //because we want to add or subtract 1, not add 1 or add 0
@@ -119,7 +119,6 @@
 							validMove = false;
 						}
 					}
-					console.log("dowhile");
 				} while (!validMove);
 				this.spacesAttackedByComputer.push([potentialX, potentialY]);
 				this.uponAttack(potentialX, potentialY);
