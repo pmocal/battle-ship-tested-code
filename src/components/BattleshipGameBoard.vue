@@ -119,6 +119,7 @@
 							validMove = false;
 						}
 					}
+					console.log("dowhile");
 				} while (!validMove);
 				this.spacesAttackedByComputer.push([potentialX, potentialY]);
 				this.uponAttack(potentialX, potentialY);
