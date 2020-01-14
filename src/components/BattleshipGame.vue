@@ -66,7 +66,6 @@
 					this.$refs.computer.humanAttackBegin();
 					await this.$refs.computer.humanTurnFinished();
 					this.$refs.computer.humanAttackEnd();
-					console.log("while");
 				}
 				if ((this.$store.getters.humanShipsSunk() == true) && (this.$store.getters.computerShipsSunk() == true)) {
 					this.$store.commit('changeMessage', "TIE GAME!");
