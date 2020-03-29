@@ -66,8 +66,6 @@
 			},
 			uponAttack(x, y) {
 				this.rowsBooleans[x].splice(y, 1, true);
-
-				
 				function isShip(value) {
 					return (typeof(value) === "number");
 				}
@@ -75,6 +73,9 @@
 				if (isShip(this.rows[x][y])) {
 					if (this.name === "Human") {
 						this.previousMoveHit = true;
+					} else {
+						console.log(event.target);
+						event.target.style.pointerEvents = 'none';
 					}
 					this.$store.commit({
 						type: 'hitShip',

@@ -60,7 +60,7 @@
 				NUMSHIPS: 5,
 				NUMTRIES: 500, //number of times to attempt selecting valid computer ship locations
 				shipLengths: [],
-				humanShipLocations: [],
+				humanShipLocations: ['[0,0]', '[1,0]', '[2,0]', '[3,0]', '[4,0]'],
 				humanShips: [],
 				computerShips: [],
 				showBattleshipSetup: true
