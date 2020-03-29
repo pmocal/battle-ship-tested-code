@@ -10,11 +10,11 @@
 				ref="startButton"
 				@click="start"
 			>
-				Start game!
+				START GAME
 			</button>
 		</div>
 
-		<div id="game">
+		<div class="game" :id="invisible ? 'invisible' : ''">
 			<BattleshipSetup
 				@signalFlare="passSignalToGame"
 				:show-battleship="showBattleship"
@@ -82,13 +82,15 @@
 			return {
 				showBattleship: false,
 				DIMENSIONS: [10, 10],
-				shipSignal: false
+				shipSignal: false,
+				invisible: true
 			}
 		},
 		methods: {
 			start() {
 				this.$refs.startButton.style.display = "none";
 				this.showBattleship = true;
+				this.invisible = false;
 			},
 			passSignalToGame() {
 				this.shipSignal = true;
@@ -105,6 +107,7 @@
 		align-items: center;
 		height: 100%;
 		width: 100%;
+		background-image: url('assets/background.jpg');
 	}
 
 	h1 {
@@ -112,6 +115,8 @@
 		font-family: Arial;
 		font-weight: bold;
 		font-size: 200%;
+		color: turquoise;
+		-webkit-text-stroke: 1.5px black;
 	}
 
 	button {
@@ -120,12 +125,16 @@
 		font-size: 110%
 	}
 
+	#invisible {
+		display: none;
+	}
+
 	#app {
 		height: 100%;
 		background-color: darkorange;
 	}
 
-	#game {
+	.game {
 		display: flex;
 		flex-direction: column; /* without this, flex-direction defaults to row and undoes styling */
 		background-color: orange;

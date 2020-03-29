@@ -74,7 +74,6 @@
 					if (this.name === "Human") {
 						this.previousMoveHit = true;
 					} else {
-						console.log(event.target);
 						event.target.style.pointerEvents = 'none';
 					}
 					this.$store.commit({
