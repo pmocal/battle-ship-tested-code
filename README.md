@@ -1,6 +1,10 @@
 # Battleships
 
-![Screenshot.png](Screenshot.png)
+## Gameplay
+
+![Screenshot1.png](Screenshot1.png)
+![Screenshot2.png](Screenshot2.png)
+![Screenshot3.png](Screenshot3.png)
 
 ## Description
 
