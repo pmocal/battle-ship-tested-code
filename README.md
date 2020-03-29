@@ -2,9 +2,9 @@
 
 ## Gameplay
 
-![Screenshot1.png](Screenshot1.png)
-![Screenshot2.png](Screenshot2.png)
-![Screenshot3.png](Screenshot3.png)
+![screenshot1.png](screenshot1.png)
+![screenshot2.png](screenshot2.png)
+![screenshot3.png](screenshot3.png)
 
 ## Description
 
