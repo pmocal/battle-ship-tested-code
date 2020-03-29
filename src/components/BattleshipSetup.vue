@@ -10,12 +10,10 @@
 
 			<p class="instructions"><span>Place your ships, human!</span> You get {{ NUMSHIPS }}.</p>
 			
-			<p class="instructions">Enter coordinates for each ship. The length of each ship is listed. Ships are placed vertically so the coordinates are where the top of the ship lies.</p>
+			<p class="instructions">Enter coordinates for each ship. Defaults are provided for you; retain the same format if you change them--that is, <code>[x, y]</code> where <code>x</code> and <code>y</code> both are both integers ranging from <code>[0, 9]</code>. The length of each ship is listed. Ships are placed vertically so the coordinates are where the top of the ship lies.</p>
 			
 			<p class="instructions">Choose carefully so that your ships fit. If any of them extend off the grid I'll make you swab the decks (and redo your choice of coordinates).</p>
-			
-			<p class="instructions">Each set of coordinates should be in the format <code>[x, y]</code> where <code>x</code> and <code>y</code> both are both integers ranging from <code>[0, 9]</code>.</p>
-			
+						
 			<p class="instructions">Click the button when you are done. Your enemy's ships are the same size as yours. But you'll have to find theirs before they find yours. Good luck.</p>
 		
 		</div>
