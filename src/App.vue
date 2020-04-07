@@ -1,18 +1,19 @@
 <template>
 	<div id="app">
-
-		<div
-			id="title"
-			v-if="!showBattleship"
-		>
-			<h1>Welcome to the Battleship game.</h1>
-			<button
-				ref="startButton"
-				@click="start"
+		<transition name="fade">
+			<div
+				id="title"
+				v-if="!showBattleship"
 			>
-				START GAME
-			</button>
-		</div>
+				<h1>Welcome to the Battleship game.</h1>
+				<button
+					ref="startButton"
+					@click="start"
+				>
+					START GAME
+				</button>
+			</div>
+		</transition>
 
 		<div class="game" :id="invisible ? 'invisible' : ''">
 			<BattleshipSetup
@@ -141,5 +142,12 @@
 		height: 100%;
 		padding-right: 0.3%;
 		font-family: Arial;
+	}
+
+	.fade-enter-active, .fade-leave-active {
+	  transition: opacity .5s;
+	}
+	.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	  opacity: 0;
 	}
 </style>
