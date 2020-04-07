@@ -120,6 +120,13 @@
 						return false;
 					}
 				}
+				//all ships must fit within the board
+				for (let i = 0; i < this.NUMSHIPS; i++) {
+					if (shipLocations[i][1] + this.shipLengths[i] > this.DIMENSIONS[1]) {
+						this.$store.commit('changeMessage', "All ships must fit within the board.");
+						return false;
+					}
+				}
 				for (let i = 0; i < this.NUMSHIPS - 1; i++) {
 					for (let j = i + 1; j < this.NUMSHIPS; j++) {
 						if (shipLocations[i][0] === shipLocations[j][0]) {
