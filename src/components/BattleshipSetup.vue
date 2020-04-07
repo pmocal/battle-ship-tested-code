@@ -95,7 +95,6 @@
 						this.$emit('signalFlare');
 					}
 				}
-
 			},
 			generateComputerLocations() {
 				var temp = [];
@@ -106,10 +105,6 @@
 				return temp;
 			},
 			validateShipLocations(shipLocations) {
-				if (shipLocations.length != this.NUMSHIPS) {
-					this.$store.commit('changeMessage', "Fill out all of the ship locations!");
-					return false;
-				}
 				for (let i = 0; i < this.NUMSHIPS; i++) {
 					if ((Object.prototype.toString.call(shipLocations[i]) != '[object Array]') || 
 						(shipLocations[i].length != 2)) {
@@ -119,7 +114,7 @@
 				}
 				//all coords must fall on the board
 				for (let i = 0; i < this.NUMSHIPS; i++) {
-					if (((shipLocations[i][0] > this.DIMENSIONS[0]) || (shipLocations[i][1] > this.DIMENSIONS[1])) || 
+					if (((shipLocations[i][0] >= this.DIMENSIONS[0]) || (shipLocations[i][1] >= this.DIMENSIONS[1])) || 
 						((shipLocations[i][0] < 0) || (shipLocations[i][1] < 0))) {
 						this.$store.commit('changeMessage', "All ship locations must be coordinates within the board.");
 						return false;
